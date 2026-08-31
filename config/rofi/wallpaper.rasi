@@ -1,0 +1,113 @@
+configuration {
+    modi: "drun";
+    show-icons: true;
+    icon-theme: "WhiteSur";
+    font: "sans-serif 11";
+    hover-select: true;
+    me-select-entry: "MouseSecondary";
+    me-accept-entry: "MousePrimary";
+}
+
+* {
+    bg-base:     rgba(30, 30, 30, 0.85);
+    bg-alt:      rgba(255, 255, 255, 0.08);
+    bg-selected: rgba(10, 132, 255, 0.35);
+    fg-main:     #f3f3f3;
+    fg-muted:    #8e8e93;
+    accent:      #0a84ff;
+
+    background-color: transparent;
+    text-color: @fg-main;
+}
+
+window {
+    transparency: "real";
+    width: 480px;
+    height: 500px;
+    background-color: @bg-base;
+    border: 1px;
+    border-color: rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    padding: 20px;
+}
+
+mainbox {
+    spacing: 14px;
+    children: [ message, inputbar, listview ];
+}
+
+message {
+    background-color: transparent;
+    margin: 0px;
+    padding: 0px;
+}
+
+textbox {
+    text-color: @fg-muted;
+    horizontal-alignment: 0.5;
+    font: "sans-serif bold 13";
+    content: "🖼  Fondos de Pantalla";
+}
+
+inputbar {
+    background-color: @bg-alt;
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+    children: [ prompt, entry ];
+}
+
+prompt {
+    enabled: false;
+}
+
+entry {
+    placeholder: "Buscar wallpaper...";
+    placeholder-color: @fg-muted;
+    text-color: @fg-main;
+}
+
+listview {
+    columns: 1;
+    lines: 8;
+    cycle: true;
+    dynamic: true;
+    layout: vertical;
+    spacing: 4px;
+    scrollbar: false;
+}
+
+element {
+    orientation: horizontal;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+element normal.normal {
+    background-color: transparent;
+}
+
+element alternate.normal {
+    background-color: transparent;
+}
+
+element selected.normal {
+    background-color: @bg-selected;
+    border: 1px;
+    border-color: rgba(10, 132, 255, 0.3);
+}
+
+element-icon {
+    size: 42px;
+    border-radius: 8px;
+    margin: 0px 12px 0px 0px;
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+element-text {
+    font: "sans-serif 13";
+    vertical-alignment: 0.5;
+}

@@ -1,0 +1,73 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 28,
+    "spacing": 0,
+    "modules-left": [
+        "custom/apple",
+        "custom/minimized",
+        "hyprland/window"
+    ],
+    "modules-center": [
+        "clock"
+    ],
+    "modules-right": [
+        "tray",
+        "pulseaudio",
+        "network",
+        "battery",
+        "custom/control-center"
+    ],
+
+    /* --- Módulos específicos --- */
+    "custom/apple": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "~/.config/eww/scripts/toogle_apple_menu.sh"
+    },
+    "custom/minimized": {
+        "exec": "~/.config/waybar/minimized_apps.sh",
+        "return-type": "json",
+        "interval": 2,
+        "signal": 8,
+        "format": "{}",
+        "max-length": 32,
+        "tooltip": true,
+        "on-click": "~/.config/waybar/minimized_apps.sh --restore"
+    },
+    "hyprland/window": {
+        "format": "  {}",
+        "max-length": 24,
+        "separate-outputs": true,
+        "tooltip": false
+    },
+    "clock": {
+        "format": "{:%a %b %d  %H:%M}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>"
+    },
+    "network": {
+        "format-wifi": " {signalStrength}%",
+        "format-ethernet": "󰈀",
+        "format-disconnected": "󰖪",
+        "tooltip-format": "{essid} ({signalStrength}%)"
+    },
+    "pulseaudio": {
+        "format": " {volume}%",
+        "format-muted": "󰖁",
+        "on-click": "pavucontrol"
+    },
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}% {icon}",
+        "format-charging": "{capacity}% ",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "custom/control-center": {
+        "format": "    ",
+        "tooltip": false,
+        "on-click": "~/.config/eww/scripts/toogle_control_center.sh"
+    },
+}

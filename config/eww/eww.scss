@@ -1,0 +1,164 @@
+/* ============================================================
+   ESTILOS GENERALES Y VENTANA EWW
+   ============================================================ */
+window.control-center {
+  background-color: transparent;
+}
+
+window.control-center widget {
+  background-color: transparent;
+}
+
+/* Elimina el fondo blanco predeterminado de GTK */
+button {
+  background: transparent;
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+  border: none;
+  color: inherit;
+  outline: none;
+}
+
+button:hover,
+button:active,
+button:checked,
+button:focus {
+  background: transparent;
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+  border: none;
+}
+
+/* ============================================================
+   CONTENEDOR PRINCIPAL
+   ============================================================ */
+.control-center-box {
+  background-color: rgba(28, 28, 30, 0.55);
+  border-radius: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  padding: 14px;
+  font-family: 'SF Pro Display', sans-serif;
+  min-width: 360px;
+}
+
+/* ============================================================
+   COMPONENTES Y FILAS
+   ============================================================ */
+.cc-header-pill {
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 20px;
+  padding: 4px 16px;
+}
+
+.cc-title-row {
+  padding: 0 4px 6px 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.cc-back-row {
+  padding: 0 4px 8px 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.cc-back-button {
+  background: transparent;
+  border: none;
+}
+
+/* ============================================================
+   TARJETAS Y BOTONES BASE
+   ============================================================ */
+.cc-card-wifi-active {
+  background: linear-gradient(160deg, #4facfe 0%, #007aff 100%);
+  border-radius: 20px;
+  padding: 10px 12px;
+}
+
+.cc-card-standard {
+  background-color: rgba(255, 255, 255, 0.10);
+  border-radius: 20px;
+}
+
+.cc-card-focus {
+  background-color: #2e5c52;
+  border-radius: 20px;
+  padding: 10px 12px;
+}
+
+.cc-card-media {
+  background-color: #1c1c1e;
+  border-radius: 20px;
+  padding: 12px;
+}
+
+.cc-item-list-button {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 8px 12px;
+}
+
+.cc-slider-box {
+  background-color: rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  padding: 8px 14px;
+}
+
+.cc-circle-btn {
+  background-color: rgba(255, 255, 255, 0.10);
+  border-radius: 18px;
+}
+
+.cc-edit-btn {
+  background-color: rgba(255, 255, 255, 0.10);
+  border-radius: 16px;
+  padding: 6px 18px;
+  margin-top: 2px;
+}
+
+.cc-media-control {
+  background: transparent;
+  border: none;
+}
+
+
+
+.apple-menu {
+  background-color: transparent;
+
+  button {
+    transition: background-color 0.15s ease;
+    
+    &:hover {
+      background-color: rgba(0, 122, 255, 0.85);
+      
+      label {
+        color: #ffffff;
+      }
+    }
+  }
+}
+
+
+// * {
+//     all: unset; /* limpia el theming por defecto de GTK en todos los widgets */
+// }
+ 
+window {
+    background-color: transparent;
+    background-image: none; /* el theme de GTK a veces pone una textura
+                                encima del color, no solo un color plano */
+    box-shadow: none;
+}
+ 
+.control-center {
+    background-color: transparent;
+}
+ 
+.click-catcher {
+    background-color: transparent;
+    background-image: none;
+}
+
