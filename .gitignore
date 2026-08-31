@@ -21,6 +21,11 @@ backup-*/
 node_modules/
 vendor/
 .cache/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 
 # Archivos de compilación
 *.o

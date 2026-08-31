@@ -126,6 +126,8 @@ install_dependencies() {
         "pavucontrol"
         "brightnessctl"
         "playerctl"
+        "python-psutil"
+        "python-gpustat"
     )
     
     # Instalar paquetes base
@@ -265,6 +267,7 @@ copy_configs() {
         "qt6ct"
         "Kvantum"
         "xsettingsd"
+        "System_Info"
     )
     
     for dir in "${CONFIG_DIRS[@]}"; do
