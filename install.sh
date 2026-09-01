@@ -97,7 +97,6 @@ install_dependencies() {
         "waybar"
         "kitty"
         "rofi-wayland"
-        "eww"
         "wofi"
         "dolphin"
         "firefox"
@@ -122,12 +121,10 @@ install_dependencies() {
         "slurp"
         "wl-clipboard"
         "polkit-gnome"
-        "nm-applet"
         "pavucontrol"
         "brightnessctl"
         "playerctl"
         "python-psutil"
-        "python-gpustat"
     )
     
     # Instalar paquetes base
@@ -148,58 +145,14 @@ install_dependencies() {
     
     # Instalar qt6ct-kde desde AUR
     if ! pacman -Qi qt6ct-kde &> /dev/null; then
-        print_warning "Instalando qt6ct-kde desde AUR..."
-        $AUR_HELPER -S --noconfirm qt6ct-kde
+        print_warning "Instalando qt6ct-kde, eww, whitesur-theme desde AUR..."
+        $AUR_HELPER -S --noconfirm qt6ct-kde eww whitesur-cursor-theme-git whitesur-icon-theme whitesur-gtk-theme-git
     fi
     
-    print_success "Dependencias instaladas"
+    print_success "Dependencias y temas instalados "
 }
 
-# ============================================================================
-# Instalar temas WhiteSur
-# ============================================================================
-install_whitesur() {
-    print_step "3" "Instalando temas WhiteSur (macOS)..."
-    
-    # Clonar temas si no existen
-    THEMES_DIR="$HOME/.local/share/themes"
-    ICONS_DIR="$HOME/.local/share/icons"
-    CURSORS_DIR="$HOME/.local/share/icons"
-    
-    mkdir -p "$THEMES_DIR" "$ICONS_DIR" "$CURSORS_DIR"
-    
-    # WhiteSur GTK Theme
-    if [ ! -d "$THEMES_DIR/WhiteSur-Dark" ]; then
-        print_warning "Descargando WhiteSur GTK Theme..."
-        git clone --depth=1 https://github.com/vinceliuice/WhiteSur-gtk-theme.git /tmp/WhiteSur-gtk-theme
-        cd /tmp/WhiteSur-gtk-theme
-        ./install.sh --dark
-        cd -
-        rm -rf /tmp/WhiteSur-gtk-theme
-    fi
-    
-    # WhiteSur Icon Theme
-    if [ ! -d "$ICONS_DIR/WhiteSur-dark" ]; then
-        print_warning "Descargando WhiteSur Icon Theme..."
-        git clone --depth=1 https://github.com/vinceliuice/WhiteSur-icon-theme.git /tmp/WhiteSur-icon-theme
-        cd /tmp/WhiteSur-icon-theme
-        ./install.sh --dark
-        cd -
-        rm -rf /tmp/WhiteSur-icon-theme
-    fi
-    
-    # WhiteSur Cursor Theme
-    if [ ! -d "$CURSORS_DIR/WhiteSur-cursors" ]; then
-        print_warning "Descargando WhiteSur Cursor Theme..."
-        git clone --depth=1 https://github.com/vinceliuice/WhiteSur-cursors-theme.git /tmp/WhiteSur-cursors-theme
-        cd /tmp/WhiteSur-cursors-theme
-        ./install.sh
-        cd -
-        rm -rf /tmp/WhiteSur-cursors-theme
-    fi
-    
-    print_success "Temas WhiteSur instalados"
-}
+
 
 # ============================================================================
 # Instalar tema Kvantum
