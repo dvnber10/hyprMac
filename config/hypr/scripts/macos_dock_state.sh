@@ -21,25 +21,28 @@ ICON="$HOME/.local/share/icons/WhiteSur-dark/actions/symbolic/view-app-grid-symb
 LAUNCHER="$HOME/.config/nwg-dock-hyprland/dock_launcher.sh"
 STYLE="$HOME/.config/nwg-dock-hyprland/style.css"
 
-# Construir comando paso a paso
-CMD="nwg-dock-hyprland -i 48 -w 10 -mb 10 -lp start"
+# Expandir HOME (en caso de que eval no lo haga)
+HOME_EXPANDED="$HOME"
+
+# Usar array para evitar problemas de expansión
+CMD=(nwg-dock-hyprland -i 48 -w 10 -mb 10 -lp start)
 
 if [ -f "$ICON" ]; then
-    CMD="$CMD -ico $ICON"
+    CMD+=(-ico "$ICON")
 fi
 
 if [ -f "$STYLE" ]; then
-    CMD="$CMD -s $STYLE"
+    CMD+=(-s "$STYLE")
 fi
 
 if [ -f "$LAUNCHER" ]; then
-    CMD="$CMD -c $LAUNCHER"
+    CMD+=(-c "$LAUNCHER")
 fi
 
-echo "$(date) Ejecutando: $CMD" >> "$LOG"
+echo "$(date) Ejecutando: ${CMD[*]}" >> "$LOG"
 
 # Lanzar dock
-eval $CMD >/tmp/nwg-dock-out.log 2>&1 &
+"${CMD[@]}" >/tmp/nwg-dock-out.log 2>&1 &
 DOCK_PID=$!
 
 sleep 1
