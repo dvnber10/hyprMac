@@ -1,0 +1,46 @@
+window {
+  background: rgba(28, 28, 30, 0.75);
+	border-radius: 18px;
+	border: 1px solid rgba(255, 255, 255, 0.20);
+	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.42);
+}
+
+#box {
+	padding: 2px 9px 8px;
+	margin: 0;
+}
+
+button,
+image {
+	background: none;
+	border-style: none;
+	box-shadow: none;
+	color: #f5f5f7;
+}
+
+button {
+	padding: 3px;
+	margin: 0 1px;
+	color: #f5f5f7;
+  font-size: 12px;
+  border-radius: 12px;
+}
+
+#launcher {
+	margin-right: 8px;
+	padding-right: 8px;
+	border-right: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+#launcher image {
+	-gtk-icon-transform: scale(0.92);
+}
+
+button:hover {
+	background-color: rgba(255, 255, 255, 0.17);
+	border-radius: 12px;
+}
+
+button:focus {
+	box-shadow: none
+}

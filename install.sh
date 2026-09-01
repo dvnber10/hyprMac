@@ -150,6 +150,12 @@ install_dependencies() {
         $AUR_HELPER -S --noconfirm qt6ct-kde eww whitesur-cursor-theme-git whitesur-icon-theme whitesur-gtk-theme-git
     fi
     
+    # Instalar hyprpm y plugins
+    if ! command -v hyprpm &> /dev/null; then
+        print_warning "Instalando Hyprland Plugin Manager (hyprpm)..."
+        sudo pacman -S --noconfirm hyprpm
+    fi
+    
     print_success "Dependencias y temas instalados "
 }
 
@@ -222,7 +228,7 @@ install_hyprbars() {
 # Copiar configuraciones
 # ============================================================================
 copy_configs() {
-    print_step "6" "Copiando configuraciones..."
+    print_step "7" "Copiando configuraciones..."
     
     SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     CONFIG_SOURCE="$SCRIPT_DIR/config"
@@ -244,6 +250,7 @@ copy_configs() {
         "Kvantum"
         "xsettingsd"
         "System_Info"
+        "nwg-dock-hyprland"
     )
     
     for dir in "${CONFIG_DIRS[@]}"; do
@@ -376,65 +383,6 @@ setup_hyprland() {
         print_error "No se encontró hyprland.lua"
         print_warning "Asegúrate de que el repositorio tiene el archivo config/hypr/hyprland.lua"
         exit 1
-    fi
-    
-    # Verificar que tiene la sección de plugin hyprbars
-    if ! grep -q "hyprbars" "$HYPRLAND_CONF"; then
-        print_warning "Agregando configuración de hyprbars..."
-        
-        cat >> "$HYPRLAND_CONF" << 'EOF'
-
------------------------
----- PLUGINS ----------
------------------------
-
--- hyprbars: barra de título compositor-side con botones tipo semáforo.
-hl.config({
-    plugin = {
-        hyprbars = {
-            bar_height              = 28,
-            bar_color                = "rgba(40,40,42,0.75)",
-            bar_blur                 = true,
-            col = { text = "rgba(230,230,235,1.0)" },
-            bar_title_enabled        = true,
-            bar_text_size            = 12,
-            bar_text_weight          = "semibold",
-            bar_text_font            = "SF Pro Display",
-            bar_text_align           = "center",
-            bar_buttons_alignment    = "left",
-            bar_part_of_window       = true,
-            bar_precedence_over_border = true,
-            bar_padding              = 10,
-            bar_button_padding       = 6,
-            icon_on_hover             = true,
-            inactive_button_color    = "rgba(255,255,255,0.15)",
-        },
-    },
-})
-
--- Botones estilo macOS
-hl.plugin.hyprbars.add_button({
-    bg_color = "rgb(ff5f57)",
-    fg_color = "rgb(4d0000)",
-    size     = 15,
-    icon     = "✕",
-    action   = "hyprctl dispatch 'hl.dsp.window.close()'",
-})
-hl.plugin.hyprbars.add_button({
-    bg_color = "rgb(febc2e)",
-    fg_color = "rgb(4d3900)",
-    size     = 15,
-    icon     = "–",
-    action   = "bash ~/.config/hypr/scripts/macos_minimize.sh",
-})
-hl.plugin.hyprbars.add_button({
-    bg_color = "rgb(28c840)",
-    fg_color = "rgb(003d0a)",
-    size     = 15,
-    icon     = "⤢",
-    action   = "bash ~/.config/hypr/scripts/macos_fullscreen.sh",
-})
-EOF
     fi
     
     print_success "Hyprland configurado"
@@ -602,6 +550,7 @@ main() {
     setup_hyprland
     setup_waybar
     finish_installation
+}
 }
 
 # Ejecutar main
