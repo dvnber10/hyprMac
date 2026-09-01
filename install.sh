@@ -287,33 +287,16 @@ copy_configs() {
         fi
     done
     
-    # FORZAR copia de hyprland.lua (reemplazar el autogenerado)
+    # FORZAR copia de hyprland.conf (reemplazar el autogenerado)
+    if [ -f "$CONFIG_SOURCE/hypr/hyprland.conf" ]; then
+        print_warning "Forzando copia de hyprland.conf..."
+        cp -f "$CONFIG_SOURCE/hypr/hyprland.conf" "$HOME/.config/hypr/hyprland.conf"
+    fi
+    
+    # Si existe hyprland.lua tambien copiarlo
     if [ -f "$CONFIG_SOURCE/hypr/hyprland.lua" ]; then
-        print_warning "Forzando copia de hyprland.lua..."
+        print_warning "Copiando hyprland.lua (respaldo)..."
         cp -f "$CONFIG_SOURCE/hypr/hyprland.lua" "$HOME/.config/hypr/hyprland.lua"
-    fi
-    
-    # Copiar autostart.conf (respaldo por si lua no funciona)
-    if [ -f "$CONFIG_SOURCE/hypr/autostart.conf" ]; then
-        print_warning "Copiando autostart.conf (respaldo)..."
-        cp -f "$CONFIG_SOURCE/hypr/autostart.conf" "$HOME/.config/hypr/autostart.conf"
-    fi
-    
-    # Verificar version de Hyprland
-    HL_VERSION=$(hyprctl version 2>/dev/null | grep -oP 'v\K[0-9]+\.[0-9]+' | head -1)
-    if [ -n "$HL_VERSION" ]; then
-        print_warning "Hyprland version: $HL_VERSION"
-        
-        # Si es version < 0.55, usar .conf en vez de .lua
-        if (( $(echo "$HL_VERSION < 0.55" | bc -l 2>/dev/null || echo 0) )); then
-            print_warning "Hyprland $HL_VERSION no soporta lua, usando configuracion .conf..."
-            
-            # Crear hyprland.conf con source
-            cat > "$HOME/.config/hypr/hyprland.conf" << 'CONF'
-# Configuracion Hyprland - respaldo para versiones < 0.55
-source = ~/.config/hypr/autostart.conf
-CONF
-        fi
     fi
     
     print_success "Configuraciones copiadas (backup en $BACKUP_DIR)"
@@ -410,13 +393,19 @@ EOF
 setup_hyprland() {
     print_step "9" "Configurando Hyprland..."
     
-    HYPRLAND_CONF="$HOME/.config/hypr/hyprland.lua"
+    HYPRLAND_CONF="$HOME/.config/hypr/hyprland.conf"
     
     # Verificar si el archivo principal existe
     if [ ! -f "$HYPRLAND_CONF" ]; then
-        print_error "No se encontró hyprland.lua"
-        print_warning "Asegúrate de que el repositorio tiene el archivo config/hypr/hyprland.lua"
+        print_error "No se encontró hyprland.conf"
+        print_warning "Asegúrate de que el repositorio tiene el archivo config/hypr/hyprland.conf"
         exit 1
+    fi
+    
+    # FORZAR copia de hyprland.conf
+    if [ -f "$CONFIG_SOURCE/hypr/hyprland.conf" ]; then
+        print_warning "Forzando copia de hyprland.conf..."
+        cp -f "$CONFIG_SOURCE/hypr/hyprland.conf" "$HOME/.config/hypr/hyprland.conf"
     fi
     
     print_success "Hyprland configurado"
