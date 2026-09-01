@@ -197,6 +197,28 @@ install_quickshell() {
 }
 
 # ============================================================================
+# Instalar plugin Hyprbars
+# ============================================================================
+install_hyprbars() {
+    print_step "6" "Instalando plugin Hyprbars..."
+    
+    # Verificar que hyprpm esté instalado
+    if ! command -v hyprpm &> /dev/null; then
+        print_warning "hyprpm no está instalado. Instalando..."
+        sudo pacman -S --noconfirm hyprpm
+    fi
+    
+    # Agregar repositorio de plugins de Hyprland
+    if ! hyprpm list 2>/dev/null | grep -q "hyprbars"; then
+        print_warning "Agregando repositorio de plugins de Hyprland..."
+        hyprpm add https://github.com/hyprwm/hyprland-plugins
+        hyprpm enable hyprbars
+    fi
+    
+    print_success "Plugin Hyprbars instalado"
+}
+
+# ============================================================================
 # Copiar configuraciones
 # ============================================================================
 copy_configs() {
@@ -537,8 +559,8 @@ finish_installation() {
     echo -e "  • ${GREEN}EWW:${NC} ~/.config/eww/"
     echo ""
     echo -e "${CYAN}Documentación:${NC}"
-    echo -e "  • ${GREEN}GitHub:${NC} https://github.com/tu-usuario/hyprland-macos-setup"
-    echo -e "  • ${GREEN}Issues:${NC} https://github.com/tu-usuario/hyprland-macos-setup/issues"
+    echo -e "  • ${GREEN}GitHub:${NC} https://github.com/dvnber10/hyprMac"
+    echo -e "  • ${GREEN}Issues:${NC} https://github.com/dvnber10/hyprMac/issues"
     echo ""
     echo -e "${YELLOW}¡Disfruta de tu escritorio estilo macOS! 🍎${NC}"
 }
@@ -573,6 +595,7 @@ main() {
     install_dependencies
     install_whitesur
     install_kvantum
+    install_hyprbars
     install_quickshell
     copy_configs
     setup_environment
