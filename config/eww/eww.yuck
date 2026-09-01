@@ -4,25 +4,20 @@
 (defvar cc_view "main")   ; "main" | "wifi" | "bluetooth"
 
 ;; ============================================================
-;; DEFPOLLS
+;; DEFPOLLS — todos con :initial para que sea instantáneo
 ;; ============================================================
-(defpoll datetime       :interval "60s" "~/.config/eww/scripts/get_datetime.sh")
-(defpoll wifi_status    :interval "5s"  "~/.config/eww/scripts/get_wifi_status.sh")
-(defpoll bt_status      :interval "5s"  "~/.config/eww/scripts/get_bt_status.sh")
-(defpoll dnd_status     :interval "5s"  "~/.config/eww/scripts/get_dnd_status.sh")
-(defpoll volume_raw     :interval "1s"  :initial "50" "~/.config/eww/scripts/get_volume_raw.sh")
-(defpoll brightness_raw :interval "1s"  :initial "50" "~/.config/eww/scripts/get_brightness_raw.sh")
+(defpoll datetime       :interval "60s" :initial " Lun 1 Ene "  "~/.config/eww/scripts/get_datetime.sh")
+(defpoll wifi_status    :interval "5s"  :initial "Cargando..."  "~/.config/eww/scripts/get_wifi_status.sh")
+(defpoll bt_status      :interval "5s"  :initial "Cargando..."  "~/.config/eww/scripts/get_bt_status.sh")
+(defpoll dnd_status     :interval "5s"  :initial "Desactivado"  "~/.config/eww/scripts/get_dnd_status.sh")
+(defpoll volume_raw     :interval "1s"  :initial "50"           "~/.config/eww/scripts/get_volume_raw.sh")
+(defpoll brightness_raw :interval "1s"  :initial "50"           "~/.config/eww/scripts/get_brightness_raw.sh")
 (defpoll media_json     :interval "2s"  :initial "{\"title\":\"\",\"artist\":\"\",\"playing\":false}"
                          "~/.config/eww/scripts/get_media_info.sh")
 
 ;; Solo escanean mientras la vista correspondiente está abierta
 (defpoll wifi_networks :interval "4s" :run-while {cc_view == "wifi"}      :initial "[]" "~/.config/eww/scripts/scan_wifi.sh")
 (defpoll bt_devices    :interval "4s" :run-while {cc_view == "bluetooth"} :initial "[]" "~/.config/eww/scripts/scan_bluetooth.sh")
-
-;; ============================================================
-;; FILA DE VOLVER (reutilizable en las dos vistas de escaneo)
-;; ============================================================
-(defwidget back-row [title]
   (box :orientation "horizontal" :space-evenly false :spacing 8
        :style "padding: 0 4px 8px 4px; border-bottom: 1px solid rgba(255,255,255,0.06);"
        (button :onclick "eww update cc_view=main"
