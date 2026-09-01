@@ -16,13 +16,16 @@ fi
 pkill -f 'nwg-dock-hyprland' 2>/dev/null || true
 sleep 0.5
 
-# Icono
-ICON="$HOME/.local/share/icons/WhiteSur-dark/actions/symbolic/view-app-grid-symbolic.svg"
+# Icono - expandir ruta completa sin ~
+ICON="$(ls "$HOME"/.local/share/icons/WhiteSur-dark/actions/symbolic/view-app-grid-symbolic.svg 2>/dev/null || true)"
 
-# Construir con solo lo que funciona
+# El style.css se carga AUTOMÁTICAMENTE desde ~/.config/nwg-dock-hyprland/style.css
+# No pasar -s, porque causa duplicar ruta
+# El launcher se pasa con -c
+
 CMD=(nwg-dock-hyprland -i 48 -w 10 -mb 10 -lp start)
 
-if [ -f "$ICON" ]; then
+if [ -n "$ICON" ]; then
     CMD+=(-ico "$ICON")
 fi
 
