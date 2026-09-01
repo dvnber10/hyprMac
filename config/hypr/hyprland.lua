@@ -35,7 +35,7 @@ local menu        = "rofi -show drun -theme ~/.config/rofi/launchpad.rasi"
 
 hl.on("hyprland.start", function()
     hl.exec_cmd("waybar")
-    hl.exec_cmd("eww daemon")
+    hl.exec_cmd("awww-daemon")
     hl.exec_cmd("bash ~/.config/hypr/scripts/macos_dock_state.sh")
     hl.exec_cmd("qs")               -- Quickshell: Centro de Control
     hl.exec_cmd("nm-applet")
