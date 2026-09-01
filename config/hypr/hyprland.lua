@@ -36,7 +36,7 @@ local menu        = "rofi -show drun -theme ~/.config/rofi/launchpad.rasi"
 hl.on("hyprland.start", function()
     hl.exec_cmd("waybar")
     hl.exec_cmd("eww daemon")
-    hl.exec_cmd("bash ~/.config/hypr/scripts/macos_dock_state.sh")
+    hl.exec_cmd("nwg-dock-hyprland -i 48 -w 10 -mb 10 -lp start -ico $HOME/.local/share/icons/WhiteSur-dark/actions/symbolic/view-app-grid-symbolic.svg -c $HOME/.config/nwg-dock-hyprland/dock_launcher.sh -s $HOME/.config/nwg-dock-hyprland/style.css")
     hl.exec_cmd("qs")               -- Quickshell: Centro de Control
     hl.exec_cmd("nm-applet")
     hl.exec_cmd("hyprpm reload")
