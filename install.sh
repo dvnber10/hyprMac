@@ -105,6 +105,7 @@ install_dependencies() {
         "curl"
         "unzip"
         "base-devel"
+        "zsh"
     )
     
     # Paquetes de theming
