@@ -257,6 +257,7 @@ copy_configs() {
         if [ -d "$HOME/.config/$dir" ]; then
             print_warning "Haciendo backup de $dir..."
             cp -r "$HOME/.config/$dir" "$BACKUP_DIR/"
+            rm -rf "$HOME/.config/$dir"
         fi
         
         if [ -d "$CONFIG_SOURCE/$dir" ]; then
@@ -278,9 +279,15 @@ copy_configs() {
         if [ -f "$CONFIG_SOURCE/$file" ]; then
             print_warning "Copiando $file..."
             mkdir -p "$HOME/.config/$(dirname $file)"
-            cp "$CONFIG_SOURCE/$file" "$HOME/.config/$file"
+            cp -f "$CONFIG_SOURCE/$file" "$HOME/.config/$file"
         fi
     done
+    
+    # FORZAR copia de hyprland.lua (reemplazar el autogenerado)
+    if [ -f "$CONFIG_SOURCE/hypr/hyprland.lua" ]; then
+        print_warning "Forzando copia de hyprland.lua..."
+        cp -f "$CONFIG_SOURCE/hypr/hyprland.lua" "$HOME/.config/hypr/hyprland.lua"
+    fi
     
     print_success "Configuraciones copiadas (backup en $BACKUP_DIR)"
 }
