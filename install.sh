@@ -593,7 +593,6 @@ main() {
     
     check_system
     install_dependencies
-    install_whitesur
     install_kvantum
     install_hyprbars
     install_quickshell
