@@ -551,7 +551,7 @@ main() {
     setup_waybar
     finish_installation
 }
-}
+
 
 # Ejecutar main
 main "$@"
