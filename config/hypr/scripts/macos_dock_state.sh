@@ -4,9 +4,9 @@ last_state=""
 
 start_dock() {
     if [[ "$1" == "fullscreen" ]]; then
-        nohup nwg-dock-hyprland -d -hd 20 -hl overlay -l overlay -p bottom -lp start -ico /home/duvan/.local/share/icons/WhiteSur-dark/actions/symbolic/view-app-grid-symbolic.svg -i 48 -w 10 -mb 10 -c /home/duvan/.config/nwg-dock-hyprland/dock_launcher.sh -s style.css >/tmp/nwg-dock.log 2>&1 &
+        nohup nwg-dock-hyprland -d -hd 20 -hl overlay -l overlay -p bottom -lp start -ico "$HOME/.local/share/icons/WhiteSur-dark/actions/symbolic/view-app-grid-symbolic.svg" -i 48 -w 10 -mb 10 -c "$HOME/.config/nwg-dock-hyprland/dock_launcher.sh" -s "$HOME/.config/nwg-dock-hyprland/style.css" >/tmp/nwg-dock.log 2>&1 &
     else
-        nohup nwg-dock-hyprland -i 48 -w 10 -mb 10 -lp start -ico /home/duvan/.local/share/icons/WhiteSur-dark/actions/symbolic/view-app-grid-symbolic.svg -c /home/duvan/.config/nwg-dock-hyprland/dock_launcher.sh -s style.css >/tmp/nwg-dock.log 2>&1 &
+        nohup nwg-dock-hyprland -i 48 -w 10 -mb 10 -lp start -ico "$HOME/.local/share/icons/WhiteSur-dark/actions/symbolic/view-app-grid-symbolic.svg" -c "$HOME/.config/nwg-dock-hyprland/dock_launcher.sh" -s "$HOME/.config/nwg-dock-hyprland/style.css" >/tmp/nwg-dock.log 2>&1 &
     fi
 }
 

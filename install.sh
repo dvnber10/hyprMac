@@ -106,6 +106,9 @@ install_dependencies() {
         "unzip"
         "base-devel"
         "zsh"
+        "nwg-dock-hyprland"
+        "jq"
+        "otf-font-awesome"
     )
     
     # Paquetes de theming
@@ -115,6 +118,7 @@ install_dependencies() {
         "breeze-icons"
         "breeze"
         "adwaita-cursors"
+        "adwaita-fonts"
         "xdg-utils"
         "mako"
         "swww"
@@ -146,8 +150,8 @@ install_dependencies() {
     
     # Instalar qt6ct-kde desde AUR
     if ! pacman -Qi qt6ct-kde &> /dev/null; then
-        print_warning "Instalando qt6ct-kde, eww, whitesur-theme desde AUR..."
-        $AUR_HELPER -S --noconfirm qt6ct-kde eww whitesur-cursor-theme-git whitesur-icon-theme whitesur-gtk-theme-git
+        print_warning "Instalando qt6ct-kde, eww, whitesur-theme, nerd-fonts desde AUR..."
+        $AUR_HELPER -S --noconfirm qt6ct-kde eww whitesur-cursor-theme-git whitesur-icon-theme whitesur-gtk-theme-git nerd-fonts-jetbrains-mono
     fi
     
     # Instalar hyprpm y plugins
