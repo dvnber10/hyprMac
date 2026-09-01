@@ -109,6 +109,7 @@ install_dependencies() {
         "nwg-dock-hyprland"
         "jq"
         "otf-font-awesome"
+        "ttf-nerd-fonts-symbols"
     )
     
     # Paquetes de theming
