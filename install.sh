@@ -110,6 +110,9 @@ install_dependencies() {
         "jq"
         "otf-font-awesome"
         "ttf-nerd-fonts-symbols"
+        "cava"
+        "swaync"
+        "xsettingsd"
     )
     
     # Paquetes de theming
@@ -162,6 +165,22 @@ install_dependencies() {
     fi
     
     print_success "Dependencias y temas instalados "
+}
+
+# ============================================================================
+# Configurar temas base
+# ============================================================================
+setup_base_themes() {
+    print_step "3" "Configurando temas base..."
+    
+    # Configurar GTK theme
+    print_warning "Configurando temas GTK..."
+    gsettings set org.gnome.desktop.interface gtk-theme 'WhiteSur-dark' 2>/dev/null || true
+    gsettings set org.gnome.desktop.interface icon-theme 'WhiteSur-dark' 2>/dev/null || true
+    gsettings set org.gnome.desktop.interface cursor-theme 'WhiteSur-cursor' 2>/dev/null || true
+    gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' 2>/dev/null || true
+    
+    print_success "Temas base configurados"
 }
 
 
@@ -256,6 +275,11 @@ copy_configs() {
         "xsettingsd"
         "System_Info"
         "nwg-dock-hyprland"
+        "cava"
+        "mako"
+        "swaync"
+        "wofi"
+        "gtk-4.0"
     )
     
     for dir in "${CONFIG_DIRS[@]}"; do
@@ -300,6 +324,24 @@ copy_configs() {
         cp -f "$CONFIG_SOURCE/hypr/hyprland.lua" "$HOME/.config/hypr/hyprland.lua"
     fi
     
+    # Hacer ejecutables los scripts de eww
+    if [ -d "$HOME/.config/eww/scripts" ]; then
+        print_warning "Haciendo ejecutables los scripts de eww..."
+        chmod +x "$HOME/.config/eww/scripts"/*.sh 2>/dev/null || true
+    fi
+    
+    # Hacer ejecutables los scripts de hypr
+    if [ -d "$HOME/.config/hypr/scripts" ]; then
+        print_warning "Haciendo ejecutables los scripts de hypr..."
+        chmod +x "$HOME/.config/hypr/scripts"/*.sh 2>/dev/null || true
+    fi
+    
+    # Hacer ejecutables los scripts de waybar
+    if [ -d "$HOME/.config/waybar" ]; then
+        print_warning "Haciendo ejecutables los scripts de waybar..."
+        chmod +x "$HOME/.config/waybar"/*.sh 2>/dev/null || true
+    fi
+    
     print_success "Configuraciones copiadas (backup en $BACKUP_DIR)"
 }
 
@@ -307,7 +349,7 @@ copy_configs() {
 # Configurar variables de entorno
 # ============================================================================
 setup_environment() {
-    print_step "7" "Configurando variables de entorno..."
+    print_step "8" "Configurando variables de entorno..."
     
     # Crear archivo de variables de entorno
     ENV_FILE="$HOME/.config/hypr/env.conf"
@@ -357,14 +399,16 @@ EOF
 # Configurar autostart
 # ============================================================================
 setup_autostart() {
-    print_step "8" "Configurando autostart..."
+    print_step "9" "Configurando autostart..."
+    
+    HYPRLAND_LUA="$HOME/.config/hypr/hyprland.lua"
     
     # Verificar si hyprland.lua ya tiene autostart
-    if ! grep -q "hyprland.start" "$HOME/.config/hypr/hyprland.lua" 2>/dev/null; then
+    if [ -f "$HYPRLAND_LUA" ] && ! grep -q "hyprland.start" "$HYPRLAND_LUA" 2>/dev/null; then
         print_warning "Configurando autostart en hyprland.lua..."
         
         # Agregar sección de autostart si no existe
-        cat >> "$HOME/.config/hypr/hyprland.lua" << 'EOF'
+        cat >> "$HYPRLAND_LUA" << 'EOF'
 
 -------------------
 ---- AUTOSTART ----
@@ -392,21 +436,33 @@ EOF
 # Configurar Hyprland
 # ============================================================================
 setup_hyprland() {
-    print_step "9" "Configurando Hyprland..."
+    print_step "10" "Configurando Hyprland..."
     
     HYPRLAND_CONF="$HOME/.config/hypr/hyprland.conf"
+    HYPRLAND_LUA="$HOME/.config/hypr/hyprland.lua"
     
-    # Verificar si el archivo principal existe
-    if [ ! -f "$HYPRLAND_CONF" ]; then
-        print_error "No se encontró hyprland.conf"
-        print_warning "Asegúrate de que el repositorio tiene el archivo config/hypr/hyprland.conf"
+    # Verificar si existe hyprland.lua (nueva configuración) o hyprland.conf (legacy)
+    if [ -f "$HYPRLAND_LUA" ]; then
+        print_success "hyprland.lua encontrado (configuración nueva)"
+        # Asegurar que hyprland.conf no exista para evitar conflictos
+        if [ -f "$HYPRLAND_CONF" ]; then
+            print_warning "Eliminando hyprland.conf legacy..."
+            rm -f "$HYPRLAND_CONF"
+        fi
+    elif [ -f "$HYPRLAND_CONF" ]; then
+        print_success "hyprland.conf encontrado (configuración legacy)"
+    else
+        print_error "No se encontró hyprland.conf ni hyprland.lua"
+        print_warning "Asegúrate de que el repositorio tiene el archivo config/hypr/hyprland.lua o config/hypr/hyprland.conf"
         exit 1
     fi
     
-    # FORZAR copia de hyprland.conf
-    if [ -f "$CONFIG_SOURCE/hypr/hyprland.conf" ]; then
-        print_warning "Forzando copia de hyprland.conf..."
-        cp -f "$CONFIG_SOURCE/hypr/hyprland.conf" "$HOME/.config/hypr/hyprland.conf"
+    # FORZAR copia de hyprland.lua si existe en el source
+    if [ -f "$CONFIG_SOURCE/hypr/hyprland.lua" ]; then
+        print_warning "Forzando copia de hyprland.lua..."
+        cp -f "$CONFIG_SOURCE/hypr/hyprland.lua" "$HOME/.config/hypr/hyprland.lua"
+        # Eliminar hyprland.conf si existe
+        rm -f "$HOME/.config/hypr/hyprland.conf"
     fi
     
     print_success "Hyprland configurado"
@@ -416,7 +472,7 @@ setup_hyprland() {
 # Configurar Waybar
 # ============================================================================
 setup_waybar() {
-    print_step "10" "Configurando Waybar..."
+    print_step "11" "Configurando Waybar..."
     
     WAYBAR_DIR="$HOME/.config/waybar"
     mkdir -p "$WAYBAR_DIR"
@@ -529,6 +585,10 @@ finish_installation() {
     echo -e "  • ${GREEN}Waybar:${NC} ~/.config/waybar/"
     echo -e "  • ${GREEN}Kitty:${NC} ~/.config/kitty/kitty.conf"
     echo -e "  • ${GREEN}EWW:${NC} ~/.config/eww/"
+    echo -e "  • ${GREEN}Cava:${NC} ~/.config/cava/"
+    echo -e "  • ${GREEN}Mako:${NC} ~/.config/mako/"
+    echo -e "  • ${GREEN}Swaync:${NC} ~/.config/swaync/"
+    echo -e "  • ${GREEN}Wofi:${NC} ~/.config/wofi/"
     echo ""
     echo -e "${CYAN}Documentación:${NC}"
     echo -e "  • ${GREEN}GitHub:${NC} https://github.com/dvnber10/hyprMac"
@@ -553,6 +613,10 @@ main() {
     echo -e "  • ${GREEN}Dolphin${NC} - File manager"
     echo -e "  • ${GREEN}WhiteSur${NC} - Tema macOS"
     echo -e "  • ${GREEN}Quickshell${NC} - Centro de control"
+    echo -e "  • ${GREEN}Cava${NC} - Visualizador de audio"
+    echo -e "  • ${GREEN}Mako${NC} - Notificaciones"
+    echo -e "  • ${GREEN}Swaync${NC} - Centro de notificaciones"
+    echo -e "  • ${GREEN}Wofi${NC} - Launcher"
     echo ""
     
     read -p "¿Continuar con la instalación? (s/n): " -n 1 -r
@@ -565,6 +629,7 @@ main() {
     
     check_system
     install_dependencies
+    setup_base_themes
     install_kvantum
     install_hyprbars
     install_quickshell
