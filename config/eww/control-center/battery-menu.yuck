@@ -1,0 +1,125 @@
+;; ============================================================
+;; CONFIGURACIÓN DE BATERÍA Y ENERGÍA
+;; ============================================================
+
+(defpoll battery_info
+  :interval "5s"
+  :initial '{"percent":100,"charging":false,"icon":"󰁹","color":"#0a84ff","apps":[]}'
+  "~/.config/eww/scripts/get_battery_advanced.sh")
+(defpoll power_profile  :interval "5s"  :run-while {cc_view == "battery"} :initial "balanced" "~/.config/eww/scripts/get_power_profile.sh")
+
+(defwidget battery-view []
+  (box
+    :orientation "vertical"
+    :space-evenly false
+    :spacing 10
+    :class "control-center-box"
+
+    (back-row :target-window "battery-menu" :title "Batería y Energía")
+
+    ;; Barra de batería
+    (overlay
+      :class "battery-liquid-container"
+      :width 320
+      :height 28
+
+      ;; Fondo
+      (box
+        :class "battery-liquid-track"
+        :width 320
+        :height 28)
+
+      ;; Relleno de izquierda a derecha
+      (box
+        :class {battery_info.charging
+          ? "battery-liquid-fill battery-charging"
+          : "battery-liquid-fill"}
+        :width {battery_info.percent * 3.2}
+        :height 28
+        :halign "start"
+        :valign "center")
+
+      ;; Porcentaje centrado
+      (label
+        :class "battery-percent"
+        :text "${battery_info.percent}%"
+        :halign "center"
+        :valign "center"))
+
+    ;; Perfiles de energía
+    (label
+      :class "battery-section-title"
+      :halign "start"
+      :text "Modo de energía")
+
+    (box
+      :orientation "horizontal"
+      :space-evenly true
+      :spacing 6
+
+      (button
+        :class {power_profile == "power-saver"
+          ? "cc-profile-active"
+          : "cc-profile-button"}
+        :onclick "~/.config/eww/scripts/set_power_profile.sh power-saver"
+        (label :text "Ahorro"))
+
+      (button
+        :class {power_profile == "balanced"
+          ? "cc-profile-active"
+          : "cc-profile-button"}
+        :onclick "~/.config/eww/scripts/set_power_profile.sh balanced"
+        (label :text "Equilibrado"))
+
+      (button
+        :class {power_profile == "performance"
+          ? "cc-profile-active"
+          : "cc-profile-button"}
+        :onclick "~/.config/eww/scripts/set_power_profile.sh performance"
+        (label :text "Rendimiento")))
+
+    ;; Aplicaciones con mayor consumo
+    (label
+      :class "battery-section-title"
+      :halign "start"
+      :text "Aplicaciones con mayor consumo")
+
+    (box
+      :orientation "vertical"
+      :space-evenly false
+      :spacing 4
+
+      (for app in {battery_info.apps}
+        (box
+          :orientation "horizontal"
+          :space-evenly false
+          :class "cc-app-usage-row"
+
+          (label
+            :class "battery-app-name"
+            :hexpand true
+            :halign "start"
+            :text "${app.name}")
+
+          (label
+            :class "battery-app-usage"
+            :text "${app.usage}"))))
+
+    (label
+      :class "battery-footer"
+      :halign "center"
+      :text "El perfil se aplica al instante")))
+
+(defwindow battery-menu
+  :geometry (geometry
+    :x "0%"
+    :y "0%"
+    :width "400px"
+    :height "75%"
+    :anchor "top right")
+  :monitor 0
+  :stacking "overlay"
+  :windowtype "normal"
+  :exclusive false
+  :class "control-center"
+  (battery-view))

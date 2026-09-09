@@ -1,0 +1,21 @@
+;; Menú Marcadores
+(defwindow menu-marcadores
+  :monitor 0
+  :geometry (geometry :x "320px" :y "30px" :width "250px" :anchor "top left")
+  :stacking "foreground"
+  :focusable false
+  :exclusive false
+  :class "menu-dropdown"
+  (box :class "menu-dropdown-box" :orientation "vertical"
+    (button :class "menu-item" :onclick "wtype -M ctrl d; ~/.config/eww/scripts/close_popups.sh"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Añadir marcador")
+        (label :class "menu-item-shortcut" :halign "end" :text "⌘D")))
+    (button :class "menu-item" :onclick "wtype -M ctrl shift b; ~/.config/eww/scripts/close_popups.sh"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Mostrar barra de marcadores")
+        (label :class "menu-item-shortcut" :halign "end" :text "⇧⌘B")))
+    (button :class "menu-item" :onclick "wtype -M ctrl shift o; ~/.config/eww/scripts/close_popups.sh"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Organizar marcadores")
+        (label :class "menu-item-shortcut" :halign "end" :text "⇧⌘O")))))

@@ -1,0 +1,54 @@
+/* Menus desplegables estilo macOS */
+.menu-dropdown {
+  background: $color-surface-menu;
+  border: 1px solid $color-border;
+  border-radius: 8px;
+  padding: 4px 0;
+  box-shadow: 0 10px 30px $color-shadow;
+}
+
+.menu-dropdown-box {
+  background: $color-surface-menu;
+  border-radius: 8px;
+}
+
+.menu-item {
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  margin: 0 4px;
+  padding: 4px 12px;
+  color: $color-text;
+  font-family: "Adwaita Sans", sans-serif;
+  font-size: 13px;
+}
+
+.menu-item label {
+  color: $color-text;
+  font-size: 13px;
+}
+
+.menu-item:hover {
+  background: $color-accent-hover;
+  color: $color-white;
+}
+
+.menu-item:hover label {
+  color: $color-white;
+}
+
+.menu-item-shortcut {
+  color: $color-text-subtle;
+  font-size: 12px;
+  font-family: "Adwaita Sans", sans-serif;
+}
+
+.menu-item:hover .menu-item-shortcut {
+  color: $color-text-muted;
+}
+
+.menu-separator {
+  background: $color-surface-item;
+  min-height: 1px;
+  margin: 4px 8px;
+}

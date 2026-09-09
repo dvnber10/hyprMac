@@ -1,0 +1,64 @@
+;; ============================================================
+;; Wallpaper Carousel — Selector visual de wallpapers con eww
+;; SUPER + P abre/cierra el carrusel
+;; Muestra 3 wallpapers: anterior (lado), actual (centro), siguiente (lado)
+;; ============================================================
+
+;; Estado — se actualiza via `eww update` desde wp_nav.sh
+(defvar wp_cur_path "")
+(defvar wp_cur_name "Cargando…")
+(defvar wp_prev_path "")
+(defvar wp_next_path "")
+(defvar wp_index 0)
+(defvar wp_total 0)
+(defvar wp_dots "●")
+
+(defwindow wallpaper-carousel
+  :monitor 0
+  :geometry (geometry :x "50%" :y "50%" :width "860px" :height "500px" :anchor "center center")
+  :stacking "overlay"
+  :exclusive false
+  :focusable false
+  :class "wp-carousel-window"
+  (wallpaper-carousel-body))
+
+(defwidget wallpaper-carousel-body []
+  (box :class "wp-carousel-bg" :orientation "vertical" :halign "center" :valign "center" :space-evenly false
+
+    ;; ── Header ──
+    (box :class "wp-header" :halign "fill" :hexpand true :space-evenly false
+      (label :class "wp-title" :halign "start" :hexpand true :text "🖼 Wallpapers")
+      (label :class "wp-counter" :halign "end" :text "${wp_index + 1} / ${wp_total}"))
+
+    ;; ── Carrusel: 3 imágenes ──
+    (box :class "wp-carousel-track" :halign "center" :valign "center" :space-evenly false
+
+      ;; Lado izquierdo (anterior)
+      (eventbox :onclick "bash ~/.config/eww/scripts/wp_nav.sh prev"
+        (box :class "wp-side-card"
+          (image :class "wp-side-img" :path "${wp_prev_path}" :image-width 180 :image-height 260 :preserve-aspect-ratio true)))
+
+      ;; Centro (actual — grande)
+      (box :class "wp-center-card"
+        (image :class "wp-center-img" :path "${wp_cur_path}" :image-width 420 :image-height 260 :preserve-aspect-ratio true))
+
+      ;; Lado derecho (siguiente)
+      (eventbox :onclick "bash ~/.config/eww/scripts/wp_nav.sh next"
+        (box :class "wp-side-card"
+          (image :class "wp-side-img" :path "${wp_next_path}" :image-width 180 :image-height 260 :preserve-aspect-ratio true))))
+
+    ;; ── Info + Dots ──
+    (box :class "wp-info" :halign "fill" :hexpand true :space-evenly false
+      (label :class "wp-name" :halign "start" :hexpand true :limit-width 50 :text "${wp_cur_name}")
+      (label :class "wp-dots" :halign "end" :text "${wp_dots}"))
+
+    ;; ── Botones ──
+    (box :class "wp-actions" :halign "center" :space-evenly true
+      (eventbox :onclick "bash ~/.config/eww/scripts/wp_nav.sh prev"
+        (label :class "wp-btn wp-btn-nav" :halign "center" :text "←"))
+      (eventbox :onclick "bash ~/.config/eww/scripts/wp_nav.sh apply && eww close wallpaper-carousel"
+        (label :class "wp-btn wp-btn-apply" :halign "center" :text "✓ Aplicar"))
+      (eventbox :onclick "bash ~/.config/eww/scripts/wp_nav.sh next"
+        (label :class "wp-btn wp-btn-nav" :halign "center" :text "→"))
+      (eventbox :onclick "bash ~/.config/eww/scripts/wp_nav.sh close"
+        (label :class "wp-btn wp-btn-close" :halign "center" :text "✕")))))

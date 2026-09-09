@@ -1,0 +1,90 @@
+;; ============================================================
+;; MÓDULO: Minimizados estilo macOS (por escritorio)
+;; ============================================================
+
+;; Campos de datos — poll cada 0.5s para respuesta rápida
+(defpoll min_addr_0  :interval "1s" :initial "" "bash ~/.config/eww/scripts/get_minimized_field.sh 0 address")
+(defpoll min_title_0 :interval "1s" :initial "" "bash ~/.config/eww/scripts/get_minimized_field.sh 0 title")
+(defpoll min_thumb_0 :interval "1s" :initial "" "bash ~/.config/eww/scripts/get_minimized_field.sh 0 thumb")
+
+(defpoll min_addr_1  :interval "1s" :initial "" "bash ~/.config/eww/scripts/get_minimized_field.sh 1 address")
+(defpoll min_title_1 :interval "1s" :initial "" "bash ~/.config/eww/scripts/get_minimized_field.sh 1 title")
+(defpoll min_thumb_1 :interval "1s" :initial "" "bash ~/.config/eww/scripts/get_minimized_field.sh 1 thumb")
+
+(defpoll min_addr_2  :interval "1s" :initial "" "bash ~/.config/eww/scripts/get_minimized_field.sh 2 address")
+(defpoll min_title_2 :interval "1s" :initial "" "bash ~/.config/eww/scripts/get_minimized_field.sh 2 title")
+(defpoll min_thumb_2 :interval "1s" :initial "" "bash ~/.config/eww/scripts/get_minimized_field.sh 2 thumb")
+
+(defpoll min_addr_3  :interval "1s" :initial "" "bash ~/.config/eww/scripts/get_minimized_field.sh 3 address")
+(defpoll min_title_3 :interval "1s" :initial "" "bash ~/.config/eww/scripts/get_minimized_field.sh 3 title")
+(defpoll min_thumb_3 :interval "1s" :initial "" "bash ~/.config/eww/scripts/get_minimized_field.sh 3 thumb")
+
+(defpoll min_addr_4  :interval "1s" :initial "" "bash ~/.config/eww/scripts/get_minimized_field.sh 4 address")
+(defpoll min_title_4 :interval "1s" :initial "" "bash ~/.config/eww/scripts/get_minimized_field.sh 4 title")
+(defpoll min_thumb_4 :interval "1s" :initial "" "bash ~/.config/eww/scripts/get_minimized_field.sh 4 thumb")
+
+;; Contador
+(defpoll minimized_count :interval "1s" :initial "0" "bash ~/.config/eww/scripts/get_minimized_count.sh")
+
+(defwidget minimized-widget []
+  (box :orientation "vertical" :space-evenly false :spacing 6
+       :class "minimized-panel"
+       :halign "start" :valign "center"
+       :style "margin-left: 12px;"
+       :visible {minimized_count > 0}
+
+       ;; Item 0
+       (button :class "minimized-thumb" :visible {min_addr_0 != ""}
+               :onclick "bash ~/.config/eww/scripts/restore_window.sh ${min_addr_0} &"
+               (box :orientation "vertical" :space-evenly false :halign "center" :spacing 3
+                    (image :path min_thumb_0 :width 120 :height 75 
+                           :visible {min_thumb_0 != ""})
+                    (label :style "font-size: 9px; color: rgba(255,255,255,0.6);"
+                           :limit-width 14 :text min_title_0)))
+
+       ;; Item 1
+       (button :class "minimized-thumb" :visible {min_addr_1 != ""}
+               :onclick "bash ~/.config/eww/scripts/restore_window.sh ${min_addr_1} &"
+               (box :orientation "vertical" :space-evenly false :halign "center" :spacing 3
+                    (image :path min_thumb_1 :width 120 :height 75 
+                           :visible {min_thumb_1 != ""})
+                    (label :style "font-size: 9px; color: rgba(255,255,255,0.6);"
+                           :limit-width 14 :text min_title_1)))
+
+       ;; Item 2
+       (button :class "minimized-thumb" :visible {min_addr_2 != ""}
+               :onclick "bash ~/.config/eww/scripts/restore_window.sh ${min_addr_2} &"
+               (box :orientation "vertical" :space-evenly false :halign "center" :spacing 3
+                    (image :path min_thumb_2 :width 120 :height 75 
+                           :visible {min_thumb_2 != ""})
+                    (label :style "font-size: 9px; color: rgba(255,255,255,0.6);"
+                           :limit-width 14 :text min_title_2)))
+
+       ;; Item 3
+       (button :class "minimized-thumb" :visible {min_addr_3 != ""}
+               :onclick "bash ~/.config/eww/scripts/restore_window.sh ${min_addr_3} &"
+               (box :orientation "vertical" :space-evenly false :halign "center" :spacing 3
+                    (image :path min_thumb_3 :width 120 :height 75 
+                           :visible {min_thumb_3 != ""})
+                    (label :style "font-size: 9px; color: rgba(255,255,255,0.6);"
+                           :limit-width 14 :text min_title_3)))
+
+       ;; Item 4
+       (button :class "minimized-thumb" :visible {min_addr_4 != ""}
+               :onclick "bash ~/.config/eww/scripts/restore_window.sh ${min_addr_4} &"
+               (box :orientation "vertical" :space-evenly false :halign "center" :spacing 3
+                    (image :path min_thumb_4 :width 120 :height 75 
+                           :visible {min_thumb_4 != ""})
+                    (label :style "font-size: 9px; color: rgba(255,255,255,0.6);"
+                           :limit-width 14 :text min_title_4)))))
+
+(defwindow x
+  :geometry (geometry :x "0%" :y "20%" :anchor "top left")
+  :monitor 0
+  :stacking "overlay"
+  :windowtype "dock"
+  :reserve (struts :side "left" :distance "160px")
+  :exclusive false
+  :class "minimized-dock"
+  :focusable false
+  (minimized-widget))

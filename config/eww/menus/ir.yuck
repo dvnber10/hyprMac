@@ -1,0 +1,22 @@
+;; Menú Ir
+(defwindow menu-ir
+  :monitor 0
+  :geometry (geometry :x "255px" :y "30px" :width "240px" :anchor "top left")
+  :stacking "foreground"
+  :focusable false
+  :exclusive false
+  :class "menu-dropdown"
+  (box :class "menu-dropdown-box" :orientation "vertical"
+    (button :class "menu-item" :onclick "wtype -M alt left; ~/.config/eww/scripts/close_popups.sh"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Atrás")
+        (label :class "menu-item-shortcut" :halign "end" :text "⌥←")))
+    (button :class "menu-item" :onclick "wtype -M alt right; ~/.config/eww/scripts/close_popups.sh"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Adelante")
+        (label :class "menu-item-shortcut" :halign "end" :text "⌥→")))
+    (box :orientation "horizontal" :class "menu-separator" "")
+    (button :class "menu-item" :onclick "wtype -M ctrl l; ~/.config/eww/scripts/close_popups.sh"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Ir a ubicación")
+        (label :class "menu-item-shortcut" :halign "end" :text "⌘L")))))

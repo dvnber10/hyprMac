@@ -1,0 +1,63 @@
+;; ============================================================
+;;  Calendario animado para eww
+;;  Requiere: scripts/calendar_daemon.py (deflisten) y eww.scss
+;; ============================================================
+
+(deflisten calendar_data
+  :initial `{"year":0,"month":0,"month_name":"","day_names":[],"weeks":[],"selected":0,"selected_label":""}`
+  "python3 ~/.config/eww/scripts/cal.py")
+
+;; ---------- widgets ----------
+
+(defwidget day-cell [day]
+  (button :class {day.empty ? "day empty" : (day.selected ? "day selected" : (day.today ? "day today" : "day"))}
+          :onclick {day.empty ? "" : "echo select:${day.num} > ~/.config/eww/scripts/calendar.fifo"}
+    (label :text {day.empty ? "" : "${day.num}"})))
+
+(defwidget week-row [week]
+  (box :class "week" :orientation "h" :space-evenly true :halign "fill"
+    (for day in week
+      (day-cell :day day))))
+
+(defwidget calendar-grid []
+  (box :class "grid" :orientation "v" :space-evenly false
+    (box :class "day-names" :orientation "h" :space-evenly true :halign "fill"
+      (for dn in {calendar_data.day_names}
+        (label :class "day-name" :text dn)))
+    (for week in {calendar_data.weeks}
+      (week-row :week week))))
+
+(defwidget header []
+  (box :class "header" :orientation "h" :space-evenly false :halign "fill" :valign "center"
+    (button :class "nav-btn" :onclick "echo prev > ~/.config/eww/scripts/calendar.fifo"
+      (label :text "‹"))
+    (box :class "month-label-box" :hexpand true :halign "center"
+      (label :class "month-label" :text "${calendar_data.month_name} ${calendar_data.year}"))
+    (button :class "nav-btn" :onclick "echo next > ~/.config/eww/scripts/calendar.fifo"
+      (label :text "›"))))
+
+(defwidget footer []
+  (box :class "footer" :orientation "h" :halign "fill" :space-evenly false :valign "center"
+    (label :class "selected-label" :hexpand true :halign "start" :text {calendar_data.selected_label})
+    (button :class "today-btn" :onclick "echo today > ~/.config/eww/scripts/calendar.fifo"
+      (label :text "Hoy"))))
+
+(defwidget calendar-window []
+  (box :class "calendar-window" :orientation "v" :space-evenly false
+    (header)
+    (calendar-grid)
+    (footer)))
+
+;; ---------- ventana ----------
+
+(defwindow calendar
+  :monitor 0
+  :geometry (geometry :x "32%"
+                       :y "1%"
+                       :width "340px"
+                       :height "420px"
+                       :anchor "top right")
+  :stacking "fg"
+  :windowtype "dock"
+  :wm-ignore false
+  (calendar-window))

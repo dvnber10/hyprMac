@@ -1,0 +1,66 @@
+;; ============================================================
+;; MÓDULO: Dynamic Island (Isla Dinámica estilo iOS) - Simplificada
+;; ============================================================
+
+;; NOTA: media_json ya está definido en control-center.yuck, lo reutilizamos
+
+;; Última notificación recibida
+(deflisten last_notification :initial "{\"app\":\"\",\"summary\":\"\",\"body\":\"\",\"urgency\":\"low\",\"timestamp\":0,\"app_icon\":\"\"}"
+  "~/.config/eww/scripts/get_last_notification.sh")
+
+;; Estado de la isla: "collapsed" | "media" | "notification"
+(defvar island_state "collapsed")
+
+;; ------------------------------------------------------------
+;; Widget principal de la Dynamic Island - Simplificado
+;; ------------------------------------------------------------
+(defwidget dynamic-island []
+  (box :orientation "horizontal" :space-evenly false :spacing 0 :class "dynamic-island-container"
+    (eventbox :class "dynamic-island-pill"
+      (box :orientation "horizontal" :space-evenly false :spacing 0 :class "dynamic-island-content"
+
+        ;; Estado COLAPSADO - Solo un punto pequeño
+        (box :visible {island_state == "collapsed"} :class "island-collapsed"
+          (label :class "island-dot" :text "●"))
+
+        ;; Estado MÚSICA - Se expande hacia los lados
+        ;; Izquierda: barra de progreso / info de la canción
+        ;; Derecha: controles de música
+        (box :visible {island_state == "media"} :class "island-media"
+          ;; LADO IZQUIERDO - Info de la música (barra de progreso + título/artista)
+          (box :orientation "vertical" :space-evenly false :spacing 2 :class "media-left" :halign "start" :valign "center"
+            (label :class "media-title" :limit-width 40 :text {media_json.title})
+            (label :class "media-artist" :limit-width 40 :text {media_json.artist})
+            (box :class "media-progress-bar" :width 150 :height 3)
+          )
+          
+          ;; LADO DERECHO - Controles de música
+          (box :orientation "horizontal" :space-evenly false :spacing 8 :class "media-controls" :halign "end" :valign "center"
+            (button :onclick "playerctl previous" :class "media-btn"
+              (label :text "󰒮"))
+            (button :onclick "~/.config/eww/scripts/toggle_media.sh" :class "media-btn play-btn"
+              (label :text {media_json.playing ? "󰏤" : "󰐊"}))
+            (button :onclick "playerctl next" :class "media-btn"
+              (label :text "󰒭"))))
+
+        ;; Estado NOTIFICACIÓN - Se expande mostrando la notificación
+        (eventbox :visible {island_state == "notification"}
+          :onclick "eww update island_state=collapsed"
+          (box :class "island-notification"
+            (image :class "notif-icon" :path {last_notification.app_icon} :width 32 :height 32)
+            (box :orientation "vertical" :space-evenly false :spacing 2 :hexpand true :halign "start" :valign "center"
+              (label :class "notif-app" :limit-width 30 :text {last_notification.app})
+              (label :class "notif-summary" :limit-width 50 :text {last_notification.summary}))
+            (label :class "notif-close-hint" :text "✕")))))))
+
+;; ------------------------------------------------------------
+;; Ventana de la Dynamic Island
+;; ------------------------------------------------------------
+(defwindow dynamic-island
+  :monitor 0
+  :geometry (geometry :x "50%" :y "0" :width "30px" :height "30px" :anchor "top center")
+  :stacking "overlay"
+  :exclusive false
+  :focusable false
+  :class "dynamic-island-window"
+  (dynamic-island))

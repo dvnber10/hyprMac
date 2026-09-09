@@ -1,0 +1,77 @@
+;; Menu dinamico: DBusMenu nativo con fallback por aplicacion.
+
+(defvar active_menu "Archivo")
+(defpoll global_menu :interval "1s" :initial "[]"
+  "~/.config/eww/scripts/dbusmenu_bridge.py --menu-from-eww")
+
+(defwidget global-menu-item [item]
+  (button :class "menu-item"
+          :onclick {"~/.config/eww/scripts/dbusmenu_action.py --id " + item.id + " --service '" + item.service + "' --path '" + item.path + "' --command '" + item.command + "'"}
+    (box :orientation "horizontal" :halign "fill"
+      (label :hexpand true :halign "start" :text {item.label})
+      (label :class "menu-item-shortcut" :halign "end" :text ""))))
+
+(defwidget global-menu-content []
+  (box :class "menu-dropdown-box" :orientation "vertical"
+    (for item in global_menu
+      (global-menu-item :item item))))
+
+(defwindow menu-global-archivo
+  :monitor 0 :geometry (geometry :x "65px" :y "30px" :width "280px" :anchor "top left")
+  :stacking "foreground" :focusable false :exclusive false :class "menu-dropdown"
+  (global-menu-content))
+
+(defwindow menu-global-edicion
+  :monitor 0 :geometry (geometry :x "125px" :y "30px" :width "280px" :anchor "top left")
+  :stacking "foreground" :focusable false :exclusive false :class "menu-dropdown"
+  (global-menu-content))
+
+(defwindow menu-global-seleccion
+  :monitor 0 :geometry (geometry :x "190px" :y "30px" :width "280px" :anchor "top left")
+  :stacking "foreground" :focusable false :exclusive false :class "menu-dropdown"
+  (global-menu-content))
+
+(defwindow menu-global-ver
+  :monitor 0 :geometry (geometry :x "255px" :y "30px" :width "280px" :anchor "top left")
+  :stacking "foreground" :focusable false :exclusive false :class "menu-dropdown"
+  (global-menu-content))
+
+(defwindow menu-global-historial
+  :monitor 0 :geometry (geometry :x "320px" :y "30px" :width "280px" :anchor "top left")
+  :stacking "foreground" :focusable false :exclusive false :class "menu-dropdown"
+  (global-menu-content))
+
+(defwindow menu-global-marcadores
+  :monitor 0 :geometry (geometry :x "385px" :y "30px" :width "280px" :anchor "top left")
+  :stacking "foreground" :focusable false :exclusive false :class "menu-dropdown"
+  (global-menu-content))
+
+(defwindow menu-global-herramientas
+  :monitor 0 :geometry (geometry :x "450px" :y "30px" :width "280px" :anchor "top left")
+  :stacking "foreground" :focusable false :exclusive false :class "menu-dropdown"
+  (global-menu-content))
+
+(defwindow menu-global-terminal
+  :monitor 0 :geometry (geometry :x "515px" :y "30px" :width "280px" :anchor "top left")
+  :stacking "foreground" :focusable false :exclusive false :class "menu-dropdown"
+  (global-menu-content))
+
+(defwindow menu-global-ir
+  :monitor 0 :geometry (geometry :x "580px" :y "30px" :width "280px" :anchor "top left")
+  :stacking "foreground" :focusable false :exclusive false :class "menu-dropdown"
+  (global-menu-content))
+
+(defwindow menu-global-ejecutar
+  :monitor 0 :geometry (geometry :x "645px" :y "30px" :width "280px" :anchor "top left")
+  :stacking "foreground" :focusable false :exclusive false :class "menu-dropdown"
+  (global-menu-content))
+
+(defwindow menu-global-ventana
+  :monitor 0 :geometry (geometry :x "710px" :y "30px" :width "280px" :anchor "top left")
+  :stacking "foreground" :focusable false :exclusive false :class "menu-dropdown"
+  (global-menu-content))
+
+(defwindow menu-global-ayuda
+  :monitor 0 :geometry (geometry :x "775px" :y "30px" :width "280px" :anchor "top left")
+  :stacking "foreground" :focusable false :exclusive false :class "menu-dropdown"
+  (global-menu-content))

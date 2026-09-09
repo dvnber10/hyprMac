@@ -1,0 +1,111 @@
+.calendar-window {
+  background: linear-gradient(120deg, #1a1a2e, #16213e, #0f3460, #533483, #1a1a2e);
+  background-size: 300% 300%;
+  animation: gradient-shift 14s ease-in-out infinite;
+  border-radius: 24px;
+  padding: 18px;
+  color: #eaeaea;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
+}
+ 
+// header
+ 
+.header {
+  padding: 6px 4px 14px 4px;
+}
+ 
+.nav-btn {
+  font-size: 20px;
+  padding: 4px 14px;
+  border-radius: 50px;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #eaeaea;
+  transition: all 200ms ease-in-out;
+}
+.nav-btn:hover {
+  background-color: #e94560;
+  color: white;
+}
+ 
+.month-label {
+  font-size: 18px;
+  font-weight: bold;
+  color: #f5f5f5;
+  animation: pop-in 400ms ease-in-out;
+}
+ 
+// grid
+ 
+.day-names {
+  margin-bottom: 6px;
+}
+.day-name {
+  font-size: 12px;
+  color: #a3a3c2;
+  font-weight: bold;
+}
+ 
+.week {
+  margin-bottom: 3px;
+}
+ 
+.day {
+  font-size: 14px;
+  min-width: 36px;
+  min-height: 36px;
+  border-radius: 18px;
+  margin: 2px;
+  color: #eaeaea;
+  background-color: transparent;
+  transition: all 220ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.day:hover {
+  background-color: rgba(233, 69, 96, 0.55);
+  margin: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+ 
+.day.today {
+  background-color: rgba(83, 52, 131, 0.65);
+  color: #ffd460;
+  font-weight: bold;
+  animation: pulse-today 2.2s ease-in-out infinite;
+}
+ 
+.day.selected {
+  background: linear-gradient(135deg, #e94560, #ffd460);
+  color: #1a1a2e;
+  font-weight: bold;
+  box-shadow: 0 0 16px 2px rgba(233, 69, 96, 0.75);
+}
+ 
+.day.empty {
+  background-color: transparent;
+}
+ 
+// footer
+ 
+.footer {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+ 
+.selected-label {
+  font-size: 12px;
+  color: #cfcfe8;
+}
+ 
+.today-btn {
+  font-size: 12px;
+  padding: 5px 14px;
+  border-radius: 14px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #eaeaea;
+  transition: all 200ms ease-in-out;
+}
+.today-btn:hover {
+  background-color: #ffd460;
+  color: #1a1a2e;
+}

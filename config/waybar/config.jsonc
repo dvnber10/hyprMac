@@ -6,7 +6,7 @@
     "modules-left": [
         "custom/apple",
         "custom/minimized",
-        "hyprland/window"
+        "custom/app-name"
     ],
     "modules-center": [
         "clock"
@@ -14,7 +14,8 @@
     "modules-right": [
         "tray",
         "pulseaudio",
-        "network",
+        "custom/wifi",
+        "custom/bluetooth",
         "battery",
         "custom/control-center"
     ],
@@ -35,26 +36,39 @@
         "tooltip": true,
         "on-click": "~/.config/waybar/minimized_apps.sh --restore"
     },
-    "hyprland/window": {
-        "format": "  {}",
-        "max-length": 24,
-        "separate-outputs": true,
+    "custom/app-name": {
+        "exec": "~/.config/waybar/app_name.sh",
+        "interval": 1,
+        "format": "{}",
         "tooltip": false
     },
     "clock": {
         "format": "{:%a %b %d  %H:%M}",
-        "tooltip-format": "<tt><small>{calendar}</small></tt>"
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "on-click": "~/.config/eww/scripts/toggle_calendar.sh"
+        
     },
-    "network": {
-        "format-wifi": " {signalStrength}%",
-        "format-ethernet": "󰈀",
-        "format-disconnected": "󰖪",
-        "tooltip-format": "{essid} ({signalStrength}%)"
+    "custom/wifi": {
+        "exec": "~/.config/waybar/wifi_icon.sh",
+        "return-type": "json",
+        "interval": 2,
+        "format": "{}",
+        "on-click": "~/.config/eww/scripts/toogle_control_center.sh wifi-menu",
+        "on-click-right": "~/.config/eww/scripts/toogle_control_center.sh wifi-menu"
+    },
+    "custom/bluetooth": {
+        "exec": "~/.config/waybar/bluetooth_icon.sh",
+        "return-type": "json",
+        "interval": 2,
+        "format": "{}",
+        "on-click": "~/.config/eww/scripts/toogle_control_center.sh bluetooth-menu",
+        "on-click-right": "~/.config/eww/scripts/toogle_control_center.sh bluetooth-menu"
     },
     "pulseaudio": {
         "format": " {volume}%",
         "format-muted": "󰖁",
-        "on-click": "pavucontrol"
+        "on-click": "~/.config/eww/scripts/toogle_control_center.sh audio-menu",
+        "on-click-right": "~/.config/eww/scripts/toogle_control_center.sh audio-menu"
     },
     "battery": {
         "states": {
@@ -63,11 +77,13 @@
         },
         "format": "{capacity}% {icon}",
         "format-charging": "{capacity}% ",
-        "format-icons": ["", "", "", "", ""]
+        "format-icons": ["", "", "", "", ""],
+        "on-click": "~/.config/eww/scripts/toogle_control_center.sh battery-menu",
+        "on-click-right": "~/.config/eww/scripts/toogle_control_center.sh battery-menu"
     },
     "custom/control-center": {
         "format": "    ",
         "tooltip": false,
-        "on-click": "~/.config/eww/scripts/toogle_control_center.sh"
-    },
+        "on-click": "~/.config/eww/scripts/toogle_control_center.sh control-center"
+    }
 }

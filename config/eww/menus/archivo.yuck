@@ -1,0 +1,67 @@
+;; Menu Archivo: cambia sus acciones segun la aplicacion activa.
+
+(defwidget archivo-item [title shortcut command]
+  (button :class "menu-item" :onclick command
+    (box :orientation "horizontal" :halign "fill"
+      (label :hexpand true :halign "start" :text title)
+      (label :class "menu-item-shortcut" :halign "end" :text shortcut))))
+
+(defwidget archivo-separator []
+  (box :orientation "horizontal" :class "menu-separator" ""))
+
+(defwidget archivo-dolphin []
+  (box :orientation "vertical" :space-evenly false
+    (archivo-item :title "Nueva ventana" :shortcut "⌘N" :command "wtype -M ctrl n; ~/.config/eww/scripts/close_popups.sh")
+    (archivo-item :title "Nueva pestaña" :shortcut "⌘T" :command "wtype -M ctrl t; ~/.config/eww/scripts/close_popups.sh")
+    (archivo-item :title "Abrir ubicación..." :shortcut "⌘L" :command "wtype -M ctrl l; ~/.config/eww/scripts/close_popups.sh")
+    (archivo-separator)
+    (archivo-item :title "Cerrar ventana" :shortcut "⌘W" :command "wtype -M ctrl w; ~/.config/eww/scripts/close_popups.sh")))
+
+(defwidget archivo-code []
+  (box :orientation "vertical" :space-evenly false
+    (archivo-item :title "Nuevo archivo" :shortcut "⌘N" :command "wtype -M ctrl n; ~/.config/eww/scripts/close_popups.sh")
+    (archivo-item :title "Abrir archivo..." :shortcut "⌘O" :command "wtype -M ctrl o; ~/.config/eww/scripts/close_popups.sh")
+    (archivo-item :title "Abrir carpeta..." :shortcut "⌘K ⌘O" :command "wtype -M ctrl k; wtype -M ctrl o; ~/.config/eww/scripts/close_popups.sh")
+    (archivo-separator)
+    (archivo-item :title "Guardar" :shortcut "⌘S" :command "wtype -M ctrl s; ~/.config/eww/scripts/close_popups.sh")
+    (archivo-item :title "Guardar como..." :shortcut "⇧⌘S" :command "wtype -M ctrl shift s; ~/.config/eww/scripts/close_popups.sh")
+    (archivo-item :title "Cerrar editor" :shortcut "⌘W" :command "wtype -M ctrl w; ~/.config/eww/scripts/close_popups.sh")))
+
+(defwidget archivo-firefox []
+  (box :orientation "vertical" :space-evenly false
+    (archivo-item :title "Nueva ventana" :shortcut "⌘N" :command "wtype -M ctrl n; ~/.config/eww/scripts/close_popups.sh")
+    (archivo-item :title "Nueva ventana privada" :shortcut "⇧⌘N" :command "wtype -M ctrl shift n; ~/.config/eww/scripts/close_popups.sh")
+    (archivo-item :title "Nueva pestaña" :shortcut "⌘T" :command "wtype -M ctrl t; ~/.config/eww/scripts/close_popups.sh")
+    (archivo-separator)
+    (archivo-item :title "Cerrar pestaña" :shortcut "⌘W" :command "wtype -M ctrl w; ~/.config/eww/scripts/close_popups.sh")
+    (archivo-item :title "Cerrar ventana" :shortcut "⇧⌘W" :command "wtype -M ctrl shift w; ~/.config/eww/scripts/close_popups.sh")))
+
+(defwidget archivo-terminal []
+  (box :orientation "vertical" :space-evenly false
+    (archivo-item :title "Nueva ventana" :shortcut "⌘N" :command "wtype -M ctrl shift n; ~/.config/eww/scripts/close_popups.sh")
+    (archivo-item :title "Nueva pestaña" :shortcut "⌘T" :command "wtype -M ctrl shift t; ~/.config/eww/scripts/close_popups.sh")
+    (archivo-separator)
+    (archivo-item :title "Cerrar pestaña" :shortcut "⌘W" :command "wtype -M ctrl w; ~/.config/eww/scripts/close_popups.sh")
+    (archivo-item :title "Salir" :shortcut "⌘Q" :command "wtype -M ctrl q; ~/.config/eww/scripts/close_popups.sh")))
+
+(defwidget archivo-generico []
+  (box :orientation "vertical" :space-evenly false
+    (archivo-item :title "Nuevo" :shortcut "⌘N" :command "wtype -M ctrl n; ~/.config/eww/scripts/close_popups.sh")
+    (archivo-item :title "Abrir..." :shortcut "⌘O" :command "wtype -M ctrl o; ~/.config/eww/scripts/close_popups.sh")
+    (archivo-item :title "Guardar" :shortcut "⌘S" :command "wtype -M ctrl s; ~/.config/eww/scripts/close_popups.sh")
+    (archivo-separator)
+    (archivo-item :title "Cerrar" :shortcut "⌘W" :command "wtype -M ctrl w; ~/.config/eww/scripts/close_popups.sh")))
+
+(defwindow menu-archivo
+  :monitor 0
+  :geometry (geometry :x "65px" :y "30px" :width "260px" :anchor "top left")
+  :stacking "foreground"
+  :focusable false
+  :exclusive false
+  :class "menu-dropdown"
+  (box :class "menu-dropdown-box" :orientation "vertical"
+    (box :visible {app_name == "Finder"} (archivo-dolphin))
+    (box :visible {app_name == "Visual Studio Code"} (archivo-code))
+    (box :visible {app_name == "Firefox"} (archivo-firefox))
+    (box :visible {app_name == "Terminal"} (archivo-terminal))
+    (box :visible {app_name != "Finder" && app_name != "Visual Studio Code" && app_name != "Firefox" && app_name != "Terminal"} (archivo-generico))))

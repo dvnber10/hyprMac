@@ -1,0 +1,22 @@
+;; Menú Herramientas
+(defwindow menu-herramientas
+  :monitor 0
+  :geometry (geometry :x "385px" :y "30px" :width "250px" :anchor "top left")
+  :stacking "foreground"
+  :focusable false
+  :exclusive false
+  :class "menu-dropdown"
+  (box :class "menu-dropdown-box" :orientation "vertical"
+    (button :class "menu-item" :onclick "wtype -M ctrl shift a; ~/.config/eww/scripts/close_popups.sh"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Abrir herramientas")
+        (label :class "menu-item-shortcut" :halign "end" :text "⇧⌘A")))
+    (button :class "menu-item" :onclick "wtype -M ctrl shift i; ~/.config/eww/scripts/close_popups.sh"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Herramientas de desarrollo")
+        (label :class "menu-item-shortcut" :halign "end" :text "⇧⌘I")))
+    (box :orientation "horizontal" :class "menu-separator" "")
+    (button :class "menu-item" :onclick "wtype -M ctrl shift delete; ~/.config/eww/scripts/close_popups.sh"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Borrar datos de navegación")
+        (label :class "menu-item-shortcut" :halign "end" :text "⇧⌘⌫")))))

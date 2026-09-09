@@ -1,0 +1,104 @@
+/* ============================================================
+   BAR - Estilos macOS Tahoe
+   ============================================================ */
+
+.bar, .bar * {
+  font-family: "CaskaydiaCove Nerd Font", "Adwaita Sans", "Symbols Nerd Font", sans-serif;
+}
+ 
+.bar {
+  background-color: $color-surface;
+  color: $color-white;
+  font-size: 13px;
+  min-height: 18px;
+  padding: 0 4px;
+}
+
+.bar-apple-btn,
+.bar-menu-item,
+.bar-module,
+.bar-control-center-btn {
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+  color: $color-white;
+  min-height: 26px;
+  padding: 0 8px;
+}
+
+.bar-apple-btn {
+  padding: 0 12px;
+  font-size: 16px;
+}
+
+.bar-app-name {
+  font-weight: 700;
+  font-size: 14px;
+  padding: 0 8px;
+  color: $color-white;
+}
+
+.bar-app-name label {
+  font-weight: 700;
+  font-size: 14px;
+  color: $color-white;
+}
+
+.bar-apple-glyph {
+  font-size: 16px;
+  color: $color-white;
+}
+
+.bar-menu-item {
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.bar-menu-item label {
+  color: $color-white;
+  font-size: 13px;
+}
+
+.bar-module {
+  font-size: 14px;
+  padding: 0 6px;
+}
+
+.bar-module label {
+  font-size: 14px;
+}
+
+.bar-control-center-btn {
+  margin-left: 2px;
+  padding: 0 10px;
+}
+
+.bar-control-glyph {
+  font-size: 13px;
+}
+
+.bar-clock {
+  font-weight: 600;
+  font-size: 13px;
+  color: $color-white;
+}
+
+.bar-clock-container {
+  margin-left: 14px;
+  padding-left: 14px;
+}
+
+.bar-apple-btn:hover,
+.bar-menu-item:hover,
+.bar-module:hover,
+.bar-control-center-btn:hover {
+  background-color: $color-hover;
+  border-radius: 6px;
+}
+
+.bar-apple-btn:active,
+.bar-menu-item:active,
+.bar-module:active,
+.bar-control-center-btn:active {
+  background-color: $color-active;
+}

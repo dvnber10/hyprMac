@@ -1,0 +1,70 @@
+;; ============================================================
+;; VARIABLES GLOBALES DE AUDIO
+;; ============================================================
+
+(defpoll audio_muted    :interval "1s"  :initial "false" "~/.config/eww/scripts/get_audio_mute.sh")
+(defpoll mic_volume     :interval "1s"  :initial "50" "~/.config/eww/scripts/get_mic_volume.sh")
+(defpoll audio_outputs  :interval "3s"  :initial "[]" "~/.config/eww/scripts/get_audio_outputs.sh")
+(defpoll audio_sources  :interval "3s"  :initial "[]" "~/.config/eww/scripts/get_audio_sources.sh")
+
+;; ============================================================
+;; WIDGET DE AUDIO
+;; ============================================================
+(defwidget audio-menu-widget []
+  (box :orientation "vertical" :space-evenly false :spacing 10 :class "control-center-box" 
+    
+    ;; Cabecera limpia con botón de retorno
+    (back-row :target-window "audio-menu" :title "Sonido")
+
+    ;; --- SLIDER DE VOLUMEN GENERAL ---
+    (box :orientation "horizontal" :space-evenly false :spacing 10 :class "cc-volume-card"
+      (button :onclick "~/.config/eww/scripts/toggle_audio_mute.sh" :class "cc-volume-icon"
+        (label :style "font-size: 24px;" :text {audio_muted ? "󰖁" : "󰕿"}))
+      (box :orientation "vertical" :hexpand true :space-evenly false
+        (label :style "font-size: 13px; color: #f5f5f7;" :halign "start" :text {audio_muted ? "Silenciado" : "Volumen General"})
+        (scale :class "volume-slider" :hexpand true :min 0 :max 101 :value volume_raw
+        :onchange "~/.config/eww/scripts/set_volume.sh {}")
+        (label :style "font-size: 11px; color: #8e8e93;" :halign "start" :text {volume_raw + "%"})))
+    
+    ;; --- SLIDER DE MICRÓFONO ---
+    (box :orientation "horizontal" :space-evenly false :spacing 10 :class "cc-volume-card"
+         (button :onclick "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle" :class "cc-volume-icon"
+                 (label :style "font-size: 24px; color: #0a84ff;" :text "󰍬"))
+         (box :orientation "vertical" :hexpand true :space-evenly false
+              (label :style "font-size: 13px; color: #f5f5f7;" :halign "start" :text "Micrófono")
+              (scale :class "volume-slider" :hexpand true :min 0 :max 101 :round-digits 0 :value mic_volume
+                     :onchange "~/.config/eww/scripts/set_mic_volume.sh {}")
+              (label :style "font-size: 11px; color: #8e8e93;" :halign "start" :text {mic_volume + "%"})))
+
+    ;; --- SECCIÓN: DISPOSITIVOS DE SALIDA ---
+    (box :orientation "vertical" :space-evenly false :spacing 4
+      (label :style "font-size: 13px; font-weight: 600; color: #f5f5f7; margin-top: 8px;" :halign "start" :text "Salida de sonido")
+      (for output in audio_outputs
+        (button :class "cc-item-list-button"
+          :onclick "wpctl set-default ${output.id}"
+          (box :orientation "horizontal" :space-evenly false :spacing 8
+            (label :style "font-size: 14px; color: #ffffff;" :text "󰓃")
+            (label :halign "start" :hexpand true :text "${output.description}")
+            (label :style "font-size: 12px; color: #30d158;" :visible "${output.is_default}" :text "󰄬")))))
+    
+    ;; --- SECCIÓN: DISPOSITIVOS DE ENTRADA ---
+    (box :orientation "vertical" :space-evenly false :spacing 4
+      (label :style "font-size: 13px; font-weight: 600; color: #f5f5f7; margin-top: 12px;" :halign "start" :text "Entrada de micrófono")
+      (for source in audio_sources
+        (button :class "cc-item-list-button"
+          :onclick "wpctl set-default ${source.id}"
+          (box :orientation "horizontal" :space-evenly false :spacing 8
+            (label :style "font-size: 14px; color: #ffffff;" :text "󰍬")
+            (label :halign "start" :hexpand true :text "${source.description}")
+            (label :style "font-size: 12px; color: #30d158;" :visible "${source.is_default}" :text "󰄬")))))))
+;; ============================================================
+;; VENTANA INDEPENDIENTE
+;; ============================================================
+(defwindow audio-menu
+  :geometry (geometry :x "0%" :y "0%" :width "400px" :height "75%" :anchor "top right")
+  :monitor 0
+  :stacking "overlay"
+  :windowtype "normal"
+  :exclusive false
+  :class "control-center"
+  (audio-menu-widget))

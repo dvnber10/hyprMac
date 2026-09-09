@@ -1,5 +1,5 @@
 * {
-	font-family: "Adwaita Sans", "JetBrainsMono Nerd Font", sans-serif;
+	font-family: "Adwaita Sans", "Symbols Nerd Font", sans-serif;
 	font-size: 13px;
 	min-height: 0;
 }
@@ -21,11 +21,12 @@ window#waybar {
 
 #custom-apple,
 #custom-minimized,
-#hyprland-window,
+#custom-app-name,
 #clock,
 #tray,
 #pulseaudio,
-#network,
+#custom-wifi,
+#custom-bluetooth,
 #battery,
 #custom-control-center {
 	margin: 4px 2px;
@@ -41,7 +42,7 @@ window#waybar {
 	background: rgba(255, 255, 255, 0.12);
 }
 
-#hyprland-window {
+#custom-app-name {
 	color: rgba(245, 245, 247, 0.76);
 	font-weight: 600;
 }
@@ -68,7 +69,8 @@ window#waybar {
 
 #tray,
 #pulseaudio,
-#network,
+#custom-wifi,
+#custom-bluetooth,
 #battery,
 #custom-control-center {
 	background: rgba(255, 255, 255, 0.10);
@@ -84,7 +86,8 @@ window#waybar {
 #custom-minimized:hover,
 #clock:hover,
 #pulseaudio:hover,
-#network:hover,
+#custom-wifi:hover,
+#custom-bluetooth:hover,
 #battery:hover,
 #custom-control-center:hover {
 	background: rgba(255, 255, 255, 0.19);

@@ -1,0 +1,22 @@
+;; ============================================================
+;; MÓDULO: Click Catcher (cierra popups al tocar afuera)
+;; ============================================================
+
+(defvar popup_open "none")
+;; "none" | "control-center" | "apple-menu" | "menu-archivo" | "menu-edicion" | "menu-ver" | "menu-ventana" | "menu-ayuda"
+
+(defwidget click-catcher-widget []
+  (button :onclick "~/.config/eww/scripts/close_popups.sh &"
+          :hexpand true
+          :vexpand true
+          :class "click-catcher-button"
+          (box :hexpand true :vexpand true)))
+
+(defwindow click-catcher
+  :monitor 0
+  :geometry (geometry :x "0" :y "0" :width "100%" :height "100%" :anchor "top left")
+  :stacking "foreground"
+  :exclusive false
+  :focusable false
+  :class "click-catcher"
+  (click-catcher-widget))

@@ -1,0 +1,31 @@
+/* apple-menu/apple-menu.scss */
+
+.apple-menu {
+  background-color: $color-panel;
+  border-radius: 14px;
+  border: 1px solid $color-border;
+  padding: 8px;
+  font-family: 'SF Pro Display', sans-serif;
+  min-width: 250px;
+}
+
+.apple-menu-item {
+  background: transparent;
+  border-radius: 8px;
+  padding: 6px 10px;
+  transition: background-color 0.15s ease;
+}
+
+.apple-menu-item:hover {
+  background-color: $color-accent;
+}
+
+.apple-menu-item:hover label {
+  color: $color-white;
+}
+
+.apple-menu-divider {
+  min-height: 1px;
+  background-color: $color-border-soft;
+  margin: 4px 0;
+}

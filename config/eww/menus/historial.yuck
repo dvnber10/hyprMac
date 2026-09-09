@@ -1,0 +1,22 @@
+;; Menú Historial
+(defwindow menu-historial
+  :monitor 0
+  :geometry (geometry :x "255px" :y "30px" :width "240px" :anchor "top left")
+  :stacking "foreground"
+  :focusable false
+  :exclusive false
+  :class "menu-dropdown"
+  (box :class "menu-dropdown-box" :orientation "vertical"
+    (button :class "menu-item" :onclick "wtype -M ctrl h; ~/.config/eww/scripts/close_popups.sh"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Mostrar historial")
+        (label :class "menu-item-shortcut" :halign "end" :text "⌘H")))
+    (button :class "menu-item" :onclick "wtype -M ctrl shift t; ~/.config/eww/scripts/close_popups.sh"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Reabrir ventana cerrada")
+        (label :class "menu-item-shortcut" :halign "end" :text "⇧⌘T")))
+    (box :orientation "horizontal" :class "menu-separator" "")
+    (button :class "menu-item" :onclick "wtype -M ctrl shift delete; ~/.config/eww/scripts/close_popups.sh"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Borrar historial")
+        (label :class "menu-item-shortcut" :halign "end" :text "⇧⌘⌫")))))

@@ -1,0 +1,14 @@
+# ~/.config/mako/config
+anchor=top-center
+width=350
+height=100
+margin=15
+border-radius=16
+background-color=#1e1e2e
+text-color=#cdd6f4
+border-color=#89b4fa
+border-size=2
+default-timeout=5000
+
+# Cada vez que entra una notificación, exporta los datos a un JSON para Eww
+# on-notify=echo '{"summary": "%s", "body": "%s", "app": "%a"}' > /tmp/eww_notif.json

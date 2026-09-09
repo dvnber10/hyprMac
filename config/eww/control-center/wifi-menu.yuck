@@ -1,0 +1,56 @@
+;; ============================================================
+;; MÓDULO: Wi-Fi Menu (Estilo Panel Móvil)
+;; ============================================================
+(defpoll wifi_networks :interval "10s" :run-while {cc_view == "wifi"}      :initial "[]" "~/.config/eww/scripts/scan_wifi.sh")
+
+(defwidget wifi-list []
+  (box :orientation "vertical" :space-evenly false :spacing 8 :class "control-center-box"
+       
+       ;; Cabecera con botón de retorno
+       (back-row :target-window "wifi-menu" :title "WIFI")
+
+       ;; --- SECCIÓN TIPO MÓVIL (Interruptor + QR Juntos) ---
+       (box :orientation "horizontal" :space-evenly false :spacing 6
+            ;; Botón principal de encendido / estado (ocupa el ancho principal)
+            (button :onclick "~/.config/eww/scripts/toggle_wifi.sh &" 
+                    :class "cc-item-list-button" 
+                    :hexpand true
+                    (box :orientation "horizontal" :space-evenly false :spacing 10
+                         (label :style "font-size: 18px; color: #0a84ff;" :text "󰤨")
+                         (box :orientation "vertical" :space-evenly false :halign "start" :hexpand true
+                              (label :style "font-size: 13px; font-weight: 600; color: #ffffff;" :halign "start" :text "Wi-Fi")
+                              (label :style "font-size: 11px; color: #8e8e93;" :halign "start" :text wifi_status))))
+
+            ;; Botón rápido de QR al lado estilo tarjeta móvil
+            (button :onclick "~/.config/eww/scripts/toogle_control_center.sh wifi-qr-menu" 
+                    :class "cc-item-list-button"
+                    :style "padding: 0px 14px;"
+                    (label :style "font-size: 16px; color: #ffffff;" :text "󰐕")))
+
+       ;; Botón compacto de desconexión rápida (aparece solo si se desea tener a mano)
+       (button :onclick "~/.config/eww/scripts/toggle_popupdisconnect_wifi.sh &" :class "cc-item-list-button"
+               (box :orientation "horizontal" :space-evenly false
+                    (label :style "font-size: 13px; color: #ff453a;" :halign "start" :hexpand true :text "Desconectar de la red actual")
+                    (label :style "font-size: 12px; color: #ff453a;" :text "󰖪")))
+
+       ;; Separador visual sutil o título de redes
+       (label :style "font-size: 12px; color: #8e8e93; margin-top: 4px; margin-bottom: 2px;" :halign "start" :text "Redes disponibles")
+
+       ;; Contenedor de redes disponibles (escaneadas)
+       (box :orientation "vertical" :space-evenly false :spacing 4
+            (for network in wifi_networks
+              (button :onclick {"~/.config/eww/scripts/connect_wifi_smart.sh '" + network.ssid + "' " + network.secured + " " + network.known}
+                      :class "cc-item-list-button"
+                      (box :orientation "horizontal" :space-evenly false :spacing 8
+                           (label :style "font-size: 13px; color: #ffffff;" :text {network.secured ? "󰌾" : "󰤨"})
+                           (label :style "font-size: 12px; color: #f0f0f0;" :halign "start" :hexpand true :text {network.ssid})
+                           (label :style "font-size: 12px; color: #30d158;" :visible {network.connected} :text "󰄬")))))))
+
+(defwindow wifi-menu
+  :geometry (geometry :x "0%" :y "0%" :width "400px" :height "75%" :anchor "top right")
+  :monitor 0
+  :stacking "overlay"
+  :windowtype "normal"
+  :exclusive false
+  :class "control-center"
+  (wifi-list))

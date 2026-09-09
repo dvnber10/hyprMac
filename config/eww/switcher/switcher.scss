@@ -1,0 +1,52 @@
+/* Selector de ventanas estilo KDE */
+
+.switcher-bg {
+    background: rgba(20, 20, 25, 0.92);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 16px 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.switcher-hint {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+    margin-bottom: 12px;
+    font-family: "SF Pro Display", "Cantarell", sans-serif;
+}
+
+.switcher-items {
+    spacing: 8px;
+}
+
+.switcher-item-box {
+    padding: 8px;
+    border-radius: 12px;
+    transition: all 150ms ease;
+    background: rgba(255, 255, 255, 0.03);
+    border: 2px solid transparent;
+}
+
+.switcher-item-box.selected {
+    background: rgba(100, 149, 237, 0.25);
+    border-color: cornflowerblue;
+    box-shadow: 0 0 12px rgba(100, 149, 237, 0.3);
+}
+
+.switcher-thumb-wrapper {
+    border-radius: 8px;
+    overflow: hidden;
+    min-width: 200px;
+    min-height: 125px;
+}
+
+.switcher-thumb {
+    border-radius: 8px;
+}
+
+.switcher-title {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 11px;
+    margin-top: 6px;
+    font-family: "SF Pro Display", "Cantarell", sans-serif;
+}

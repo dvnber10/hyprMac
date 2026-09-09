@@ -1,0 +1,39 @@
+;; ============================================================
+;; MÓDULO: Menú Ver (dropdown)
+;; ============================================================
+
+(defwindow menu-ver
+  :monitor 0
+  :geometry (geometry :x "190px" :y "30px" :width "260px" :anchor "top left")
+  :stacking "foreground"
+  :focusable false
+  :exclusive false
+  :class "menu-dropdown"
+  (box :class "menu-dropdown-box" :orientation "vertical"
+    (button :class "menu-item"
+            :onclick "wtype -M ctrl equal & ~/.config/eww/scripts/close_popups.sh &"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Acercar")
+        (label :class "menu-item-shortcut" :halign "end" :text "⌘+")))
+    (button :class "menu-item"
+            :onclick "wtype -M ctrl minus & ~/.config/eww/scripts/close_popups.sh &"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Alejar")
+        (label :class "menu-item-shortcut" :halign "end" :text "⌘-")))
+    (button :class "menu-item"
+            :onclick "wtype -M ctrl 0 & ~/.config/eww/scripts/close_popups.sh &"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Tamaño real")
+        (label :class "menu-item-shortcut" :halign "end" :text "⌘0")))
+    (box :orientation "horizontal" :class "menu-separator" "")
+    (button :class "menu-item"
+            :onclick "wtype -M ctrl f & ~/.config/eww/scripts/close_popups.sh &"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Pantalla completa")
+        (label :class "menu-item-shortcut" :halign "end" :text "⌘F")))
+    (box :orientation "horizontal" :class "menu-separator" "")
+    (button :class "menu-item"
+            :onclick "wtype -M ctrl shift r & ~/.config/eww/scripts/close_popups.sh &"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Actualizar")
+        (label :class "menu-item-shortcut" :halign "end" :text "⇧⌘R")))))

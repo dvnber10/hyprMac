@@ -40,6 +40,8 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("qs")               -- Quickshell: Centro de Control
     hl.exec_cmd("nm-applet")
     hl.exec_cmd("hyprpm reload")
+    hl.exec_cmd("eww daemon -c ~/.config/eww && sleep 1 && eww -c ~/.config/eww open x")
+    hl.exec_cmd("hyprswitch init --show-title true")
 
     -- Forzar modo oscuro WhiteSur en schemas GNOME/GTK
     hl.exec_cmd("gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'")
@@ -54,8 +56,7 @@ end)
 -------------------------------
 
 hl.env("XCURSOR_THEME", "WhiteSur-cursor")
-hl.env("XCURSOR_SIZE", "24")
-hl.env("HYPRCURSOR_THEME", "WhiteSur-cursor")
+hl.env("XCURSOR_SIZE", "24")hl.env("HYPRCURSOR_THEME", "WhiteSur-cursor")
 hl.env("HYPRCURSOR_SIZE", "24")
 
 -- Forzar modo oscuro WhiteSur en GTK y Qt
@@ -64,6 +65,8 @@ hl.env("GDK_THEME", "WhiteSur-dark")
 hl.env("QT_QPA_PLATFORMTHEME", "qt5ct")
 hl.env("QT_STYLE_OVERRIDE", "Breeze")
 hl.env("XDG_CURRENT_DESKTOP", "Hyprland:KDE")
+hl.env("GTK_MODULES", "appmenu-gtk-module-wayland")
+hl.env("UBUNTU_MENUPROXY", "1")
 
 
 -----------------------
@@ -104,7 +107,7 @@ hl.plugin.hyprbars.add_button({
     fg_color = "rgb(4d0000)",
     size     = 12,
     icon     = "✕",
-    action   = "hyprctl dispatch 'hl.dsp.window.close()'",
+    action   = "hyprctl eval 'hl.dispatch(hl.dsp.window.close())'",
 })
 hl.plugin.hyprbars.add_button({
     bg_color = "rgb(febc2e)",
@@ -213,7 +216,7 @@ hl.config({
 })
 
 hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" }) -- swipe entre Spaces, como Mac
-hl.gesture({ fingers = 4, direction = "down", action = "special", workspace_name = "minimized" })
+hl.gesture({ fingers = 4, direction = "down", action = "special", workspace_name = "minimized" }) -- fallback, no interfiere con special:minimized-N
 
 
 ---------------------
@@ -228,7 +231,7 @@ hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu))                      -- CMD+Espacio = Spotlight
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("~/.config/hypr/scripts/macos_minimize.sh"))
 hl.bind(mainMod .. " + F", hl.dsp.exec_cmd("~/.config/hypr/scripts/macos_fullscreen.sh"))
-hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("bash ~/.config/eww/scripts/wallpaper_picker.sh"))
+hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("bash ~/.config/eww/scripts/toggle_wallpapers.sh"))
 hl.bind(mainMod .. " + CTRL + Q", hl.dsp.exec_cmd("hyprctl dispatch exit"))
 
 hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
@@ -242,11 +245,14 @@ for i = 1, 10 do
     hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
+hl.bind("ALT + TAB", hl.dsp.exec_cmd("hyprswitch simple"))
+hl.bind("ALT + SHIFT + TAB", hl.dsp.exec_cmd("hyprswitch simple --reverse"))
+
+
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }))
 hl.bind(mainMod .. " + mouse:272",  hl.dsp.window.drag(),   { mouse = true })
 hl.bind(mainMod .. " + mouse:273",  hl.dsp.window.resize(), { mouse = true })
-
 
 
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
@@ -258,6 +264,8 @@ hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("playerctl next"),       { locked = tr
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = true })
+
+
 
 
 --------------------------------
@@ -272,6 +280,7 @@ hl.window_rule({
     float = true,
     size = "1164 601",
     move = "192 71",
+    
     rounding = 12,
 })
 
@@ -283,6 +292,17 @@ hl.window_rule({
     match = { class = ".*" },
     suppress_event = "maximize",
 })
+
+-- Ventanas minimizadas se ocultan completamente
+hl.window_rule({
+    name  = "hide-minimized-windows",
+    match = { tag = "minimized" },
+    float     = false,
+    opacity   = "0 0",
+    no_focus  = true,
+    no_shadow = true,
+})
+
 
 -- Quitar sombras y bordes al control center de Eww para que la transparencia fluya limpia
 hl.window_rule({

@@ -1,0 +1,43 @@
+#!/bin/bash
+# ~/.config/hypr/scripts/macos_minimize_daemon.sh
+# Minimize directo para el daemon (sin verificar tags, el daemon ya lo hizo)
+
+ADDR="$1"
+WS_ID="$2"
+[ -z "$ADDR" ] && exit 0
+
+WIN_JSON=$(hyprctl clients -j 2>/dev/null | jq -r --arg a "$ADDR" '.[] | select(.address == $a)')
+[ -z "$WIN_JSON" ] && exit 0
+
+WS_ID="${WS_ID:-$(echo "$WIN_JSON" | jq -r '.workspace.id')}"
+TITLE=$(echo "$WIN_JSON" | jq -r '.title // ""')
+WIN_CLASS=$(echo "$WIN_JSON" | jq -r '.class // ""')
+
+# Registrar en JSON
+MINIMIZED_FILE="/home/duvan/.config/eww/minimized/minimized.json"
+python3 -c "
+import json, os
+f = '$MINIMIZED_FILE'
+data = []
+if os.path.exists(f):
+    try: data = json.load(open(f))
+    except: pass
+if not any(w['address'] == '$ADDR' for w in data):
+    data.append({'address':'$ADDR','workspace':int('$WS_ID'),'title':'''$TITLE''','class':'$WIN_CLASS'})
+    json.dump(data, open(f,'w'), indent=2)
+"
+
+# Screenshot
+THUMB_DIR="/tmp/eww-minimized-thumbs"
+mkdir -p "$THUMB_DIR"
+X=$(echo "$WIN_JSON" | jq -r '.at[0]')
+Y=$(echo "$WIN_JSON" | jq -r '.at[1]')
+W=$(echo "$WIN_JSON" | jq -r '.size[0]')
+H=$(echo "$WIN_JSON" | jq -r '.size[1]')
+[ "$W" -gt 0 ] 2>/dev/null && [ "$H" -gt 0 ] 2>/dev/null && timeout 3 grim -g "${X},${Y} ${W}x${H}" "${THUMB_DIR}/${ADDR}.png" 2>/dev/null
+[ -s "${THUMB_DIR}/${ADDR}.png" ] 2>/dev/null && timeout 3 ffmpeg -y -i "${THUMB_DIR}/${ADDR}.png" -vf "scale=120:75" "${THUMB_DIR}/${ADDR}_thumb.png" 2>/dev/null
+rm -f "${THUMB_DIR}/${ADDR}.png" 2>/dev/null
+
+# Tag + invisible
+hyprctl eval "hl.dispatch(hl.dsp.window.tag({tag = 'minimized', window = 'address:${ADDR}'}))"
+hyprctl eval "hl.dispatch(hl.dsp.window.set_prop({prop='opacity', value='0 0', window = 'address:${ADDR}'}))"

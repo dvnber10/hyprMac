@@ -1,0 +1,64 @@
+;; ============================================================
+;; MÓDULO: Apple Menu
+;; ============================================================
+
+(defpoll os_uptime      :interval "60s"  "uptime -p | sed 's/up //'")
+(defpoll kernel_version :interval "600s" "uname -r")
+
+(defwidget apple-menu-widget []
+  (box :orientation "vertical" :space-evenly false :spacing 4 :class "apple-menu"
+
+       (box :orientation "vertical" :space-evenly false :spacing 2
+            :style "padding: 6px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 4px;"
+            (label :style "font-size: 13px; font-weight: 600; color: #f5f5f7;" :halign "start" :text "Arch Linux (Wayland)")
+            (label :style "font-size: 11px; color: #8e8e93;" :halign "start" :text {"Kernel: " + kernel_version})
+            (label :style "font-size: 11px; color: #8e8e93;" :halign "start" :text {"Activo: " + os_uptime}))
+
+       (button :onclick "~/.config/eww/scripts/close_popups.sh & ~/.config/System_Info/run.sh"
+               :class "apple-menu-item"
+               (label :style "font-size: 13px; color: #f5f5f7;" :halign "start" :text "Acerca de este equipo..."))
+
+       (box :class "apple-menu-divider")
+
+       (button :onclick "~/.config/eww/scripts/close_popups.sh & ~/.config/eww/scripts/open_settings.sh"
+               :class "apple-menu-item"
+               (label :style "font-size: 13px; color: #f5f5f7;" :halign "start" :text "Ajustes del Sistema..."))
+
+       (button :onclick "~/.config/eww/scripts/close_popups.sh & ~/.config/eww/scripts/open_appstore.sh"
+               :class "apple-menu-item"
+               (label :style "font-size: 13px; color: #f5f5f7;" :halign "start" :text "Actualización de Software..."))
+
+       (box :class "apple-menu-divider")
+
+       (button :onclick "~/.config/eww/scripts/close_popups.sh & hyprctl dispatch killactive"
+               :class "apple-menu-item"
+               (label :style "font-size: 13px; color: #f5f5f7;" :halign "start" :text "Forzar salida..."))
+
+       (box :class "apple-menu-divider")
+
+       (button :onclick "~/.config/eww/scripts/close_popups.sh & loginctl lock-session"
+               :class "apple-menu-item"
+               (label :style "font-size: 13px; color: #f5f5f7;" :halign "start" :text "Bloquear pantalla"))
+       (button :onclick "~/.config/eww/scripts/close_popups.sh & systemctl suspend"
+               :class "apple-menu-item"
+               (label :style "font-size: 13px; color: #f5f5f7;" :halign "start" :text "Reposo"))
+       (button :onclick "~/.config/eww/scripts/close_popups.sh & systemctl reboot"
+               :class "apple-menu-item"
+               (label :style "font-size: 13px; color: #f5f5f7;" :halign "start" :text "Reiniciar..."))
+       (button :onclick "~/.config/eww/scripts/close_popups.sh && loginctl terminate-user $USER ; systemctl start sddm"
+               :class "apple-menu-item"
+               (label :style "font-size: 13px; color: #f5f5f7;" :halign "start" :text "Cerrar sesión..."))
+       (button :onclick "~/.config/eww/scripts/close_popups.sh & shutdown now"
+               :class "apple-menu-item"
+               (label :style "font-size: 13px; color: #f5f5f7;" :halign "start" :text "Apagar..."))
+  )
+)
+
+(defwindow apple-menu
+  :monitor 0
+  :geometry (geometry :x "0.5%" :y "1%" :width "270px" :anchor "top left")
+  :stacking "overlay"
+  :focusable false
+  :exclusive false
+  (apple-menu-widget)
+)

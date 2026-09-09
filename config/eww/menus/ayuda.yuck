@@ -1,0 +1,23 @@
+;; ============================================================
+;; MÓDULO: Menú Ayuda (dropdown)
+;; ============================================================
+
+(defwindow menu-ayuda
+  :monitor 0
+  :geometry (geometry :x "320px" :y "30px" :width "220px" :anchor "top left")
+  :stacking "foreground"
+  :focusable false
+  :exclusive false
+  :class "menu-dropdown"
+  (box :class "menu-dropdown-box" :orientation "vertical"
+    (button :class "menu-item"
+            :onclick "wtype -M ctrl slash & ~/.config/eww/scripts/close_popups.sh &"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Buscar")
+        (label :class "menu-item-shortcut" :halign "end" :text "⌘/")))
+    (box :orientation "horizontal" :class "menu-separator" "")
+    (button :class "menu-item"
+            :onclick "wtype -M ctrl question & ~/.config/eww/scripts/close_popups.sh &"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Atajos de teclado")
+        (label :class "menu-item-shortcut" :halign "end" :text "")))))

@@ -1,0 +1,22 @@
+;; Menú Selección
+(defwindow menu-seleccion
+  :monitor 0
+  :geometry (geometry :x "190px" :y "30px" :width "250px" :anchor "top left")
+  :stacking "foreground"
+  :focusable false
+  :exclusive false
+  :class "menu-dropdown"
+  (box :class "menu-dropdown-box" :orientation "vertical"
+    (button :class "menu-item" :onclick "wtype -M ctrl a; ~/.config/eww/scripts/close_popups.sh"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Seleccionar todo")
+        (label :class "menu-item-shortcut" :halign "end" :text "⌘A")))
+    (button :class "menu-item" :onclick "wtype -M ctrl d; ~/.config/eww/scripts/close_popups.sh"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Añadir selección")
+        (label :class "menu-item-shortcut" :halign "end" :text "⌘D")))
+    (box :orientation "horizontal" :class "menu-separator" "")
+    (button :class "menu-item" :onclick "wtype -M ctrl shift a; ~/.config/eww/scripts/close_popups.sh"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Reducir selección")
+        (label :class "menu-item-shortcut" :halign "end" :text "⇧⌘A")))))

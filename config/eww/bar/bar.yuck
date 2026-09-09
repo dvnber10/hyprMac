@@ -1,0 +1,130 @@
+;; ============================================================
+;; MÓDULO: Bar (barra superior estilo macOS Tahoe)
+;; ============================================================
+
+(defpoll bar_clock :interval "10s" :initial " Lun 1 Ene  00:00"
+          "~/.config/eww/scripts/get_datetime.sh")
+
+(defpoll bar_battery :interval "15s" :initial "-1"
+          "~/.config/eww/scripts/get_battery_percent.sh")
+
+(defpoll bar_wifi_status :interval "5s" :initial "Cargando..."
+          "~/.config/eww/scripts/get_wifi_status.sh")
+
+(defpoll bar_bt_status :interval "5s" :initial "Cargando..."
+          "~/.config/eww/scripts/get_bt_status.sh")
+
+;; App activa
+(defpoll app_name :interval "1s" :initial "Finder"
+          "~/.config/eww/scripts/get_active_menu.sh")
+
+(defpoll app_m1 :interval "1s" :initial "Archivo"
+          "~/.config/eww/scripts/get_active_menus.sh | cut -d'|' -f1")
+(defpoll app_m2 :interval "1s" :initial "Edición"
+          "~/.config/eww/scripts/get_active_menus.sh | cut -d'|' -f2")
+(defpoll app_m3 :interval "1s" :initial "Ver"
+          "~/.config/eww/scripts/get_active_menus.sh | cut -d'|' -f3")
+(defpoll app_m4 :interval "1s" :initial "Ventana"
+          "~/.config/eww/scripts/get_active_menus.sh | cut -d'|' -f4")
+(defpoll app_m5 :interval "1s" :initial "Ayuda"
+          "~/.config/eww/scripts/get_active_menus.sh | cut -d'|' -f5")
+(defpoll app_m6 :interval "1s" :initial ""
+          "~/.config/eww/scripts/get_active_menus.sh | cut -d'|' -f6")
+(defpoll app_m7 :interval "1s" :initial ""
+          "~/.config/eww/scripts/get_active_menus.sh | cut -d'|' -f7")
+(defpoll app_m8 :interval "1s" :initial ""
+          "~/.config/eww/scripts/get_active_menus.sh | cut -d'|' -f8")
+
+;; ============================================================
+;; IZQUIERDA: logo Apple + app name + menus dinamicos
+;; ============================================================
+(defwidget bar-left []
+  (box :orientation "horizontal" :space-evenly false :spacing 0 :halign "start"
+    ;; Logo Apple
+    (button :onclick "bash -c '~/.config/eww/scripts/toogle_apple_menu.sh &'"
+            :class "bar-apple-btn"
+      (label :class "bar-apple-glyph" :text ""))
+    ;; Nombre de la app activa
+    (label :class "bar-app-name" :text app_name)
+    ;; Menu propio o DBusMenu, segun lo que publique la aplicacion
+    (button :visible {app_m1 != ""} :class "bar-menu-item"
+            :onclick {"~/.config/eww/scripts/open_menu.sh '" + app_m1 + "' &"}
+      (label :text app_m1))
+    (button :visible {app_m2 != ""} :class "bar-menu-item"
+            :onclick {"~/.config/eww/scripts/open_menu.sh '" + app_m2 + "' &"}
+      (label :text app_m2))
+    (button :visible {app_m3 != ""} :class "bar-menu-item"
+            :onclick {"~/.config/eww/scripts/open_menu.sh '" + app_m3 + "' &"}
+      (label :text app_m3))
+    (button :visible {app_m4 != ""} :class "bar-menu-item"
+            :onclick {"~/.config/eww/scripts/open_menu.sh '" + app_m4 + "' &"}
+      (label :text app_m4))
+    (button :visible {app_m5 != ""} :class "bar-menu-item"
+            :onclick {"~/.config/eww/scripts/open_menu.sh '" + app_m5 + "' &"}
+      (label :text app_m5))
+    (button :visible {app_m6 != ""} :class "bar-menu-item"
+            :onclick {"~/.config/eww/scripts/open_menu.sh '" + app_m6 + "' &"}
+      (label :text app_m6))
+    (button :visible {app_m7 != ""} :class "bar-menu-item"
+            :onclick {"~/.config/eww/scripts/open_menu.sh '" + app_m7 + "' &"}
+      (label :text app_m7))
+    (button :visible {app_m8 != ""} :class "bar-menu-item"
+            :onclick {"~/.config/eww/scripts/open_menu.sh '" + app_m8 + "' &"}
+      (label :text app_m8))))
+
+;; ============================================================
+;; CENTRO: espacio libre
+;; ============================================================
+(defwidget bar-center []
+  (box :orientation "horizontal" :halign "center" :hexpand true))
+
+;; ============================================================
+;; DERECHA: wifi + bluetooth + bateria + control center
+;; ============================================================
+(defwidget bar-right []
+  (box :orientation "horizontal" :space-evenly false :spacing 1 :halign "end"
+    ;; WiFi
+        (button :onclick "bash -c '~/.config/eww/scripts/toogle_control_center.sh wifi &'"
+            :class "bar-module"
+      (label :text {bar_wifi_status == "Desactivado" ? "󰤭" : "󰤨"}))
+    ;; Bluetooth
+        (button :onclick "bash -c '~/.config/eww/scripts/toogle_control_center.sh bluetooth &'"
+            :class "bar-module"
+      (label :text {bar_bt_status == "Desactivado" ? "󰂲" : "󰂯"}))
+    ;; Bateria
+    (button :onclick "bash -c '~/.config/eww/scripts/toogle_control_center.sh &'"
+            :class "bar-module"
+            :visible {bar_battery >= 0}
+      (box :orientation "horizontal" :spacing 2
+        (label :text {bar_battery >= 80 ? "" : (bar_battery >= 60 ? "" : (bar_battery >= 40 ? "" : (bar_battery >= 20 ? "" : "")))})
+        (label :style "font-size: 12px;" :text {bar_battery + "%"})))
+    ;; Control Center
+    (button :onclick "bash -c '~/.config/eww/scripts/toogle_control_center.sh &'"
+            :class "bar-control-center-btn"
+      (label :class "bar-control-glyph" :text ""))
+        ;; Hora y fecha, separadas de los menus de la aplicacion
+        (box :class "bar-clock-container"
+         :orientation "horizontal"
+         :halign "end"
+         (label :class "bar-clock" :text bar_clock))))
+
+;; ============================================================
+;; WIDGET PRINCIPAL
+;; ============================================================
+(defwidget bar-widget []
+  (centerbox :orientation "horizontal" :class "bar"
+    (bar-left)
+    (bar-center)
+    (bar-right)))
+
+;; ============================================================
+;; VENTANA
+;; ============================================================
+(defwindow bar
+  :monitor 0
+  :geometry (geometry :x "0" :y "0" :width "100%" :height "30px" :anchor "top center")
+  :stacking "foreground"
+  :exclusive true
+  :focusable false
+  :class "bar-window"
+  (bar-widget))

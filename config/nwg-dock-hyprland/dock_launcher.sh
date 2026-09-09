@@ -1,3 +1,7 @@
 #!/bin/bash
-# Launcher del dock - abre rofi al hacer click en el icono
-rofi -show drun -theme "$HOME/.config/rofi/launchpad.rasi" &
+
+if command -v rofi >/dev/null 2>&1; then
+    exec rofi -show drun -theme ~/.config/rofi/launchpad.rasi
+fi
+
+exec rofi -show drun -theme ~/.config/rofi/launchpad.rasi  

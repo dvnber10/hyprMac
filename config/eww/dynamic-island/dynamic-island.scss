@@ -1,0 +1,139 @@
+// ============================================================
+// ESTILOS: Dynamic Island Simplificada (GTK compatible)
+// ============================================================
+
+// Contenedor principal
+.dynamic-island-container {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// Ventana
+.dynamic-island-window {
+    background: transparent;
+}
+
+// Píldora principal de la isla
+.dynamic-island-pill {
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    padding: 6px 12px;
+    min-height: 6px;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dynamic-island-content {
+    min-height: 36px;
+}
+
+// Estado COLAPSADO - Solo un punto pequeño
+.island-collapsed {
+    .island-dot {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 8px;
+        transition: opacity 0.3s ease;
+    }
+}
+
+// Estado MÚSICA - Se expande hacia los lados
+.island-media {
+    min-width: 320px;
+    padding: 4px 12px;
+    
+    // LADO IZQUIERDO - Info de la música
+    .media-left {
+        min-width: 200px;
+        padding-right: 16px;
+        
+        .media-title {
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: "SF Pro Display", "Inter", sans-serif;
+        }
+        
+        .media-artist {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 11px;
+            font-family: "SF Pro Display", "Inter", sans-serif;
+        }
+        
+        .media-progress-bar {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 2px;
+            min-height: 3px;
+            margin-top: 4px;
+        }
+    }
+    
+    // LADO DERECHO - Controles de música
+    .media-controls {
+        .media-btn {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            padding: 6px;
+            border-radius: 50%;
+            transition: all 0.15s ease;
+            
+            &:hover {
+                background: rgba(255, 255, 255, 0.1);
+                color: #ffffff;
+            }
+            
+            &.play-btn {
+                font-size: 20px;
+                padding: 4px 10px;
+                background: #ffffff;
+                color: #000000;
+                
+                &:hover {
+                    background: #ffffff;
+                    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.3);
+                }
+            }
+        }
+    }
+}
+
+// Estado NOTIFICACIÓN - Se expande mostrando la notificación
+.island-notification {
+    min-width: 360px;
+    padding: 6px 12px;
+    
+    .notif-icon {
+        border-radius: 8px;
+        margin-right: 10px;
+    }
+    
+    .notif-app {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 11px;
+        font-weight: 600;
+        font-family: "SF Pro Display", "Inter", sans-serif;
+        letter-spacing: 0.5px;
+    }
+    
+    .notif-summary {
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: 500;
+        font-family: "SF Pro Display", "Inter", sans-serif;
+    }
+    
+    .notif-close-hint {
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 14px;
+        margin-left: 12px;
+    }
+}
+
+// Transición suave general de la píldora al cambiar de estado
+.dynamic-island-pill {
+    opacity: 1;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}

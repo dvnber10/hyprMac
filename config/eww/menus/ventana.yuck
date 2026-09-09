@@ -1,0 +1,39 @@
+;; ============================================================
+;; MÓDULO: Menú Ventana (dropdown)
+;; ============================================================
+
+(defwindow menu-ventana
+  :monitor 0
+  :geometry (geometry :x "255px" :y "30px" :width "240px" :anchor "top left")
+  :stacking "foreground"
+  :focusable false
+  :exclusive false
+  :class "menu-dropdown"
+  (box :class "menu-dropdown-box" :orientation "vertical"
+    (button :class "menu-item"
+            :onclick "wtype -M ctrl m & ~/.config/eww/scripts/close_popups.sh &"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Minimizar")
+        (label :class "menu-item-shortcut" :halign "end" :text "⌘M")))
+    (button :class "menu-item"
+            :onclick "wtype -M ctrl shift m & ~/.config/eww/scripts/close_popups.sh &"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Minimizar otras")
+        (label :class "menu-item-shortcut" :halign "end" :text "⌥⌘M")))
+    (box :orientation "horizontal" :class "menu-separator" "")
+    (button :class "menu-item"
+            :onclick "hyprctl dispatch fullscreen 0 & ~/.config/eww/scripts/close_popups.sh &"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Pantalla completa")
+        (label :class "menu-item-shortcut" :halign "end" :text "")))
+    (button :class "menu-item"
+            :onclick "hyprctl dispatch togglefloating & ~/.config/eww/scripts/close_popups.sh &"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Mover a izquierda")
+        (label :class "menu-item-shortcut" :halign "end" :text "")))
+    (box :orientation "horizontal" :class "menu-separator" "")
+    (button :class "menu-item"
+            :onclick "hyprctl dispatch focusurgentorlast & ~/.config/eww/scripts/close_popups.sh &"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Traer todo al frente")
+        (label :class "menu-item-shortcut" :halign "end" :text "")))))

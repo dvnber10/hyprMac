@@ -1,0 +1,25 @@
+;; ============================================================
+;; MÓDULO: Wi-Fi QR Menu (Independiente)
+;; ============================================================
+
+(defwidget wifi-qr-view []
+  (box :orientation "vertical" :space-evenly false :spacing 8 :class "cc-wifi-qr-view control-center-box"
+       
+       ;; Cabecera que regresa al menú de Wi-Fi en lugar del control center principal
+       (box :orientation "horizontal" :space-evenly false :spacing 8 :class "cc-back-row"
+            (button :onclick "eww close wifi-qr-menu && eww open wifi-menu" :class "cc-back-button"
+                    (label :style "font-size: 16px; color: #0a84ff;" :text "‹"))
+            (label :style "font-size: 15px; font-weight: 600; color: #f5f5f7;" :halign "start" :hexpand true :text "Código QR Wi-Fi"))
+       
+       (label :style "font-size: 12px; color: #8e8e93;" :halign "center" :text wifi_status)
+       (image :path "/tmp/eww-wifi-qr.png" :width 220 :height 220)
+       (label :style "font-size: 11px; color: #8e8e93;" :halign "center" :text "Escanea este código para conectarte")))
+
+(defwindow wifi-qr-menu
+  :geometry (geometry :x "0%" :y "0%" :width "400px" :height "75%" :anchor "top right")
+  :monitor 0
+  :stacking "overlay"
+  :windowtype "normal"
+  :exclusive false
+  :class "control-center"
+  (wifi-qr-view))

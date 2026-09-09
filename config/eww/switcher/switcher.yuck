@@ -1,0 +1,29 @@
+;; Selector de ventanas estilo KDE Alt+Tab
+
+(defwindow switcher
+    :monitor ""
+    :stacking "overlay"
+    :layer "overlay"
+    :type "dialog"
+    :namespace "switcher"
+    (switcher-body))
+
+(defwidget switcher-body []
+    (box :class "switcher-bg" :halign "center" :valign "center" :orientation "vertical" :space-evenly false
+        (label :class "switcher-hint" :halign "center" :text "Alt + Tab para cambiar ventana")
+        (box :class "switcher-items" :halign "center" :valign "center" :orientation "h" :space-evenly true
+            (for item in switcher_data
+                (switcher-item item))
+        )
+    ))
+
+(defwidget switcher-item [item]
+    (eventbox
+        :onclick "eww -c ~/.config/eww exec ~/.config/eww/scripts/switcher.sh close"
+        (box :class "switcher-item-box ${item.selected ? 'selected' : ''}"
+            :orientation "vertical" :halign "center" :valign "center" :space-evenly false
+            (box :class "switcher-thumb-wrapper" :halign "center"
+                (image :class "switcher-thumb" :path "${item.thumb}" :image-width 200 :image-height 125 :preserve-aspect-ratio true))
+            (label :class "switcher-title" :halign "center" :limit-width 24 :text "${item.title}")
+        )
+    ))

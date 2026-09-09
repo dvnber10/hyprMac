@@ -1,0 +1,44 @@
+;; ============================================================
+;; MÓDULO: Menú Edición (dropdown)
+;; ============================================================
+
+(defwindow menu-edicion
+  :monitor 0
+  :geometry (geometry :x "125px" :y "30px" :width "240px" :anchor "top left")
+  :stacking "foreground"
+  :focusable false
+  :exclusive false
+  :class "menu-dropdown"
+  (box :class "menu-dropdown-box" :orientation "vertical"
+    (button :class "menu-item"
+            :onclick "wtype -M ctrl z & ~/.config/eww/scripts/close_popups.sh &"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Deshacer")
+        (label :class "menu-item-shortcut" :halign "end" :text "⌘Z")))
+    (button :class "menu-item"
+            :onclick "wtype -M ctrl shift z & ~/.config/eww/scripts/close_popups.sh &"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Rehacer")
+        (label :class "menu-item-shortcut" :halign "end" :text "⇧⌘Z")))
+    (box :orientation "horizontal" :class "menu-separator" "")
+    (button :class "menu-item"
+            :onclick "wtype -M ctrl x & ~/.config/eww/scripts/close_popups.sh &"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Cortar")
+        (label :class "menu-item-shortcut" :halign "end" :text "⌘X")))
+    (button :class "menu-item"
+            :onclick "wtype -M ctrl c & ~/.config/eww/scripts/close_popups.sh &"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Copiar")
+        (label :class "menu-item-shortcut" :halign "end" :text "⌘C")))
+    (button :class "menu-item"
+            :onclick "wtype -M ctrl v & ~/.config/eww/scripts/close_popups.sh &"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Pegar")
+        (label :class "menu-item-shortcut" :halign "end" :text "⌘V")))
+    (box :orientation "horizontal" :class "menu-separator" "")
+    (button :class "menu-item"
+            :onclick "wtype -M ctrl a & ~/.config/eww/scripts/close_popups.sh &"
+      (box :orientation "horizontal" :halign "fill"
+        (label :hexpand true :halign "start" :text "Seleccionar todo")
+        (label :class "menu-item-shortcut" :halign "end" :text "⌘A")))))

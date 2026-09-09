@@ -1,0 +1,322 @@
+/* ============================================================
+   ESTILO iOS/macOS TAHOE PARA SWAYNC - Dynamic Island Ready
+   ============================================================ */
+
+* {
+    font-family: "SF Pro Display", "Inter", "JetBrains Mono", sans-serif;
+}
+
+/* --- Ventana del Centro de Control --- */
+.control-center {
+    background: rgba(28, 28, 30, 0.92);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        0 24px 80px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+}
+
+/* --- Botones de Control Center (Grid) --- */
+.widget-buttons > flowbox > flowboxchild > button {
+    background: rgba(48, 48, 52, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 14px 10px;
+    margin: 4px;
+    min-width: 60px;
+    min-height: 60px;
+    font-size: 22px;
+    font-weight: 500;
+    color: #ffffff;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Botón activo (toggle ON) */
+.widget-buttons > flowbox > flowboxchild > button.toggle:checked {
+    background: linear-gradient(135deg, rgba(0, 122, 255, 0.9), rgba(0, 100, 220, 0.9));
+    border-color: rgba(0, 122, 255, 0.4);
+    color: #ffffff;
+    box-shadow: 
+        0 0 24px rgba(0, 122, 255, 0.3),
+        0 4px 16px rgba(0, 122, 255, 0.2);
+}
+
+/* Botón inactivo (toggle OFF) */
+.widget-buttons > flowbox > flowboxchild > button.toggle {
+    background: rgba(42, 42, 46, 0.6);
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.widget-buttons > flowbox > flowboxchild > button.toggle:hover {
+    background: rgba(58, 58, 62, 0.8);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Botón de acción normal */
+.widget-buttons > flowbox > flowboxchild > button:not(.toggle) {
+    background: rgba(42, 42, 46, 0.6);
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.widget-buttons > flowbox > flowboxchild > button:not(.toggle):hover {
+    background: rgba(68, 68, 72, 0.9);
+    color: #ffffff;
+    transform: scale(1.02);
+}
+
+.widget-buttons > flowbox > flowboxchild > button.toggle:checked:hover {
+    background: linear-gradient(135deg, rgba(0, 100, 220, 0.95), rgba(0, 80, 200, 0.95));
+    transform: scale(1.02);
+}
+
+/* --- Widget de Título --- */
+.widget-title {
+    padding: 16px 20px;
+    background: transparent;
+}
+
+.widget-title > button {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 8px 18px;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.15s ease;
+}
+
+.widget-title > button:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.widget-title > label {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+}
+
+/* --- Notificaciones (Estilo Dynamic Island) --- */
+.notification {
+    background: rgba(32, 32, 36, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin: 10px 16px;
+    padding: 14px 16px;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.notification:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+}
+
+/* Urgencia crítica */
+.notification.urgency-critical {
+    border-left: 4px solid #ff3b30;
+    background: rgba(60, 20, 20, 0.95);
+}
+
+.notification.urgency-low {
+    opacity: 0.9;
+}
+
+/* Icono de la app */
+.notification > box > image {
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+/* Contenido de la notificación */
+.notification-body {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.notification-summary {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: -0.2px;
+}
+
+.notification-app-name {
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* --- Respuestas Inline (Para WhatsApp, Telegram, etc.) --- */
+.notification-inline-reply {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    margin-top: 10px;
+    padding: 10px 12px;
+}
+
+.notification-inline-reply > entry {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 13px;
+    caret-color: #007aff;
+}
+
+.notification-inline-reply > entry:focus {
+    outline: none;
+}
+
+.notification-inline-reply > entry::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.notification-inline-reply > button {
+    background: linear-gradient(135deg, #007aff, #0056cc);
+    border: none;
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 16px;
+    margin-left: 8px;
+    transition: all 0.15s ease;
+}
+
+.notification-inline-reply > button:hover {
+    background: linear-gradient(135deg, #0056cc, #0044aa);
+    transform: scale(1.02);
+    box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3);
+}
+
+/* Botones de acción en notificaciones */
+.notification-action-button {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 14px;
+    margin: 4px 4px 0 0;
+    transition: all 0.15s ease;
+}
+
+.notification-action-button:hover {
+    background: rgba(0, 122, 255, 0.25);
+    border-color: rgba(0, 122, 255, 0.4);
+    color: #ffffff;
+}
+
+/* --- MPRIS / Media Player en Control Center --- */
+.mpris-widget {
+    background: rgba(32, 32, 36, 0.8);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 16px;
+}
+
+.mpris-art {
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.mpris-title {
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.mpris-artist {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+}
+
+.mpris-control-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 18px;
+    padding: 8px;
+    transition: all 0.15s ease;
+}
+
+.mpris-control-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.mpris-control-button.play-pause {
+    font-size: 24px;
+    background: #ffffff;
+    color: #000000;
+}
+
+.mpris-control-button.play-pause:hover {
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+}
+
+/* --- Sliders (Volumen, Brillo) --- */
+scale {
+    min-height: 6px;
+}
+
+scale trough {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    min-height: 6px;
+}
+
+scale highlight {
+    background: linear-gradient(90deg, #007aff, #00d4ff);
+    border-radius: 3px;
+}
+
+scale slider {
+    background: #ffffff;
+    border-radius: 50%;
+    min-width: 16px;
+    min-height: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.15s ease;
+}
+
+scale slider:hover {
+    min-width: 20px;
+    min-height: 20px;
+    box-shadow: 0 4px 16px rgba(0, 122, 255, 0.4);
+}
+
+/* --- Scrollbar --- */
+scrollbar {
+    background: transparent;
+}
+
+scrollbar slider {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    min-width: 6px;
+    margin: 4px;
+}
+
+scrollbar slider:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* --- Separadores --- */
+separator {
+    background: rgba(255, 255, 255, 0.06);
+    min-height: 1px;
+    margin: 8px 0;
+}
